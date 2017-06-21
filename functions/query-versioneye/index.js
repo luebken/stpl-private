@@ -1,6 +1,6 @@
 'use strict'
 
-const https = require('https')
+const utilities = require('lib/utilities')
 const AWS = require('aws-sdk')
 
 const VERSIONEYE_API_KEY = process.env.VERSIONEYE_API_KEY
@@ -24,7 +24,7 @@ exports.handle = (event, context, mainCallback) => {
 
   const url = 'https://www.versioneye.com/api/v2/products/' + product + '/' + encodeURIComponent(pkg) + '?api_key=' + VERSIONEYE_API_KEY
 
-  httpsGetJSON(url, function (err, json) {
+  utilities.httpsGetJSON(url, function (err, json) {
     if (err != null) {
       console.log('error:', err)
       mainCallback(err)
@@ -66,39 +66,3 @@ var saveToS3 = (ecosystem, pkg, versionEyeResult, callback) => {
   })
 }
 
-// Get JSON for url. Calls callback with: err, json
-var httpsGetJSON = (url, callback) => {
-  console.log('Querying: ' + url)
-  https.get(url, (response) => {
-    const statusCode = response.statusCode
-    const contentType = response.headers['content-type']
-
-    let error
-    if (statusCode !== 200) {
-      error = new Error(`Request Failed.\nStatus Code: ${statusCode}`)
-    } else if (!/^application\/json/.test(contentType)) {
-      error = new Error(`Invalid content-type.\nExpected application/json but received ${contentType}`)
-    }
-    if (error) {
-      console.log('Error for https.get of: ' + url)
-      console.log('Error message: ' + error.message)
-      response.resume()
-      return
-    }
-
-    response.setEncoding('utf8')
-    let rawData = ''
-    response.on('data', function (chunk) { rawData += chunk })
-    response.on('end', () => {
-      let parsedData
-      try {
-        parsedData = JSON.parse(rawData)
-      } catch (e) {
-        console.log('error parsing ' + rawData + '\nmsg:' + e.message)
-      }
-      callback(null, parsedData)
-    })
-  }).on('error', (e) => {
-    console.log(`Got error: ${e.message}`)
-  })
-}
