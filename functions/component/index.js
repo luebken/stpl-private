@@ -2,7 +2,7 @@ console.log('starting function')
 
 const AWS = require('aws-sdk')
 
-exports.handle = function (e, ctx, cb) {
+exports.handle = function (e, ctx, mainCb) {
   var ecosystem = e.pathParameters.ecosystem.toLowerCase()
   var pkg = e.pathParameters.package.toLowerCase()
 
@@ -13,25 +13,10 @@ exports.handle = function (e, ctx, cb) {
     Key: key
   }
 
-  s3.getObject(params, function (err, data) {
+  s3.getObject(params, function (err, librariosioData) {
     if (err) {
-      console.log('Error from s3.getObject: ' + err + ' data:' + data)
-
-      // TODO: always send a message and react accordingly: new vs update
-      // publish a component query request
-      var sns = new AWS.SNS()
-      var message = { ecosystem: ecosystem, package: pkg }
-      sns.publish({
-        Message: JSON.stringify(message),
-        TopicArn: 'arn:aws:sns:us-east-1:339468856116:stpl-component-request'
-      }, function (err, data) {
-        if (err) {
-          console.log(err.stack)
-          return
-        }
-        console.log('push sent')
-        console.log(data)
-      })
+      console.log('Error from s3.getObject: ' + err + ' data:' + librariosioData)
+      sendComponentRequest(ecosystem, pkg)
 
       const response = {
         statusCode: 404,
@@ -40,17 +25,51 @@ exports.handle = function (e, ctx, cb) {
           err: err
         })
       }
-      cb(null, response)
+      mainCb(null, response)
       return
     }
-    let objectData = JSON.parse(data.Body.toString('utf-8'))
-    console.log('Data from s3.getObject: ' + objectData)
-    const response = {
-      statusCode: 200,
-      body: JSON.stringify({
-        librariosio: objectData
-      })
+    let librariosioDataBody = JSON.parse(librariosioData.Body.toString('utf-8'))
+    console.log('Data from s3.getObject: ' + librariosioDataBody)
+
+    const key = 'versioneye/' + ecosystem + '/' + pkg
+    var params = {
+      Bucket: 'stpl-data',
+      Key: key
     }
-    cb(null, response)
+    s3.getObject(params, function (err, versioneyeData) {
+      let versioneyeDataBody = ''
+      if (err) {
+        console.log('Error from s3.getObject: ' + err + ' data:' + versioneyeData)
+      } else {
+        versioneyeDataBody = JSON.parse(versioneyeData.Body.toString('utf-8'))
+        console.log('Data from s3.getObject: ' + librariosioDataBody)
+      }
+      const response = {
+        statusCode: 200,
+        body: JSON.stringify({
+          librariosio: librariosioDataBody,
+          versioneye: versioneyeDataBody
+        })
+      }
+      mainCb(null, response)
+    })
+  })
+}
+
+// callback: err, data
+// send message
+// in an case of an error just log the error. ignore.
+var sendComponentRequest = function (ecosystem, pkg) {
+  // TODO: always send a message and react accordingly: new vs update
+  // publish a component query request
+  var sns = new AWS.SNS()
+  var message = { ecosystem: ecosystem, package: pkg }
+  sns.publish({
+    Message: JSON.stringify(message),
+    TopicArn: 'arn:aws:sns:us-east-1:339468856116:stpl-component-request'
+  }, function (err, data) {
+    if (err) {
+      console.log('err when trying to publish event')
+    }
   })
 }
