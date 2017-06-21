@@ -17,6 +17,7 @@ exports.handle = function (e, ctx, cb) {
     if (err) {
       console.log('Error from s3.getObject: ' + err + ' data:' + data)
 
+      // TODO: always send a message and react accordingly: new vs update
       // publish a component query request
       var sns = new AWS.SNS()
       var message = { ecosystem: ecosystem, package: pkg }
@@ -42,9 +43,6 @@ exports.handle = function (e, ctx, cb) {
       cb(null, response)
       return
     }
-
-    console.log('--- why ???')
-
     let objectData = JSON.parse(data.Body.toString('utf-8'))
     console.log('Data from s3.getObject: ' + objectData)
     const response = {
