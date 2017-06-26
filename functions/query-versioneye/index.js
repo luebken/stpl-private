@@ -29,40 +29,40 @@ exports.handle = (event, context, mainCallback) => {
       console.log('error:', err)
       mainCallback(err)
     }
-    saveToS3(ecosystem, pkg, json, function (err, message) {
-      if (err != null) {
-        console.log('error:', err)
-        mainCallback(err)
-      }
-      console.log('sucess. stored json to s3')
+    saveToS3(ecosystem, pkg, json).then((msg) => {
+      console.log(msg)
       mainCallback()
+    }).catch((err) => {
+      console.log('error:', err)
+      mainCallback(err)
+    })
+  })
+
+  // Get JSON for url. returns promise
+  var saveToS3 = (ecosystem, pkg, versionEyeResult) => new Promise((resolve, reject) => {
+    const s3 = new AWS.S3()
+
+    const key = 'versioneye/' + ecosystem + '/' + pkg
+    var buf = new Buffer.from(JSON.stringify(versionEyeResult))
+
+    var params = {
+      Bucket: 'stpl-data',
+      Key: key,
+      ContentType: 'application/json',
+      ACL: 'public-read',
+      Body: buf
+    }
+
+    s3.putObject(params, function (err, data) {
+      if (err) {
+        console.log('Error from s3.putObject: ' + err, data)
+        // callback(err, 'Error')
+        reject(err)
+      } else {
+        console.log('Data from s3.putObject: ' + data)
+        // callback(null, 'Data stored in S3')
+        resolve('Data stored in S3')
+      }
     })
   })
 }
-
-// Get JSON for url. Calls callback with: err, message
-var saveToS3 = (ecosystem, pkg, versionEyeResult, callback) => {
-  const s3 = new AWS.S3()
-
-  const key = 'versioneye/' + ecosystem + '/' + pkg
-  var buf = new Buffer.from(JSON.stringify(versionEyeResult))
-
-  var params = {
-    Bucket: 'stpl-data',
-    Key: key,
-    ContentType: 'application/json',
-    ACL: 'public-read',
-    Body: buf
-  }
-
-  s3.putObject(params, function (err, data) {
-    if (err) {
-      console.log('Error from s3.putObject: ' + err, data)
-      callback(err, 'Error')
-    } else {
-      console.log('Data from s3.putObject: ' + data)
-      callback(null, 'Data stored in S3')
-    }
-  })
-}
-
