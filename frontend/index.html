@@ -7,8 +7,14 @@
 
 <body>
 
-  <div id="app" v-if="visible">
-    Ecosystem: {{ platform }}, Name: {{ name }}, Latest release: {{ lastet_release }}
+  <div id="app">
+    Name: <input v-model="name" v-on:keyup.enter="query"> </br>
+    <div id="details" v-if="got_result">
+      Ecosystem: {{ platform }}, Latest release: {{ lastet_release }}, Link: {{package_manager_url}}
+    </div>
+    <div id="error" v-if="got_error">
+      Upps.
+    </div>
   </div>
 
 </body>
@@ -17,25 +23,38 @@
   var app = new Vue({
     el: '#app',
     data: {
-      visible: false,
+      got_result: false,
+      got_error: false,
+      submit: "",
       platform: "",
       name: "",
-      lastet_release: ""
+      lastet_release: "",
+      package_manager_url: ""
+    },
+    methods: {
+      query: function () {
+        that = this
+        url = 'https://0m4mv2f1y8.execute-api.us-east-1.amazonaws.com/dev/component/npm/' + this.name
+        console.log(url)
+        fetch(url).then(response => {
+          response.json().then(function (json) {
+            that.name = json.librariosio.name
+            that.platform = json.librariosio.platform
+            that.lastet_release = json.librariosio.latest_release_number
+            that.package_manager_url = json.librariosio.package_manager_url
+            that.got_result = true
+            console.log(json.librariosio)
+          })
+        }, response => {
+          //TODO
+          that.got_result = true
+          that.got_error = false
+          console.log("error ", response)
+        });
+      }
     },
     mounted: function () {
-      console.log("ready")
-      that = this
-      fetch('https://0m4mv2f1y8.execute-api.us-east-1.amazonaws.com/dev/component/npm/express').then(response => {
-        response.json().then(function (json) {
-          that.name = json.librariosio.name
-          that.platform = json.librariosio.platform
-          that.lastet_release = json.librariosio.latest_release_number
-          that.visible = true
-          console.log(json.librariosio)
-        })
-      }, response => {
-        console.log("error ", response)
-      });
+
     }
   })
 
