@@ -8,12 +8,12 @@
 <body>
 
   <div id="app">
-    Name: <input v-model="name" v-on:keyup.enter="query"> </br>
+    Package: <input v-model="name" v-on:keyup.enter="query" autofocus> </br>
     <div id="details" v-if="got_result">
-      Ecosystem: {{ platform }}, Latest release: {{ lastet_release }}, Link: {{package_manager_url}}
+      Ecosystem: {{ platform }}, Latest release: {{ lastet_release }}, Link: <a v-bind:href="package_manager_url">{{ package_manager_url }}</a>
     </div>
     <div id="error" v-if="got_error">
-      Upps.
+      Upps. Couldn't find a result.
     </div>
   </div>
 
@@ -37,18 +37,24 @@
         url = 'https://0m4mv2f1y8.execute-api.us-east-1.amazonaws.com/dev/component/npm/' + this.name
         console.log(url)
         fetch(url).then(response => {
-          response.json().then(function (json) {
-            that.name = json.librariosio.name
-            that.platform = json.librariosio.platform
-            that.lastet_release = json.librariosio.latest_release_number
-            that.package_manager_url = json.librariosio.package_manager_url
-            that.got_result = true
-            console.log(json.librariosio)
-          })
+          if (response.status == 200) {
+            console.log("response ", response)
+            response.json().then(function (json) {
+              that.name = json.librariosio.name
+              that.platform = json.librariosio.platform
+              that.lastet_release = json.librariosio.latest_release_number
+              that.package_manager_url = json.librariosio.package_manager_url
+              that.got_result = true
+              that.got_error = false
+              console.log(json.librariosio)
+            })
+          } else { // 404
+            that.got_result = false
+            that.got_error = true
+          }
         }, response => {
-          //TODO
-          that.got_result = true
-          that.got_error = false
+          that.got_result = false
+          that.got_error = true
           console.log("error ", response)
         });
       }
