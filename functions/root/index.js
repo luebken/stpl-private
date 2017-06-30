@@ -1,13 +1,16 @@
 console.log('starting function')
 exports.handle = function (e, ctx, cb) {
-  console.log('processing event: %j', e)
-  cb(null, {
-    message: 'Welcome to Stpl API',
+  console.log('processing event:', e)
+
+  var response = {
+    message: `Welcome ${e.requestContext.authorizer.claims.name} to Stpl API`,
     version: 'pre-alpha',
-    avialable_resources: [
-      {
-        path: '/component/{ecosystem}/{package}'
-      }
-    ]
+    body: e
+  }
+
+  cb(null, {
+    statusCode: 200,
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    body: JSON.stringify(response)
   })
 }
