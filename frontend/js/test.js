@@ -1,12 +1,3 @@
-const getComponentQuery = `
-{
-  component(name: "lodash") {
-    name
-    ecosystem
-    latest_release
-    link
-  }
-}`
 
 function testPage () {
   document.getElementById('buttonTestEndpoint').addEventListener('click', () => {
@@ -31,6 +22,19 @@ function testPage () {
   })
 
   document.getElementById('buttonGetComponent').addEventListener('click', () => {
+    var name = document.getElementById('inputGetComponent').value
+    console.log('getComponent for ', name)
+    const getComponentQuery = `
+{
+  component(name: "${name}") {
+    name
+    ecosystem
+    latest_release
+    link
+  }
+}`
+    console.log('getComponentQuery ', getComponentQuery)
+
     gqlQuery(getComponentQuery, {}, true).then(respObject => {
       document.getElementById('output').innerHTML = JSON.stringify(respObject, null, 2)
     }).catch(err => {
