@@ -1,6 +1,7 @@
 console.log('starting function')
 
 const AWS = require('aws-sdk')
+const utilities = require('lib/utilities')
 
 exports.handle = function (e, ctx, mainCb) {
   var ecosystem = e.pathParameters.ecosystem.toLowerCase()
@@ -16,7 +17,7 @@ exports.handle = function (e, ctx, mainCb) {
   s3.getObject(params, function (err, librariosioData) {
     if (err) {
       console.log('Error from s3.getObject: ' + err + ' data:' + librariosioData)
-      sendComponentRequest(ecosystem, pkg)
+      utilities.sendComponentRequest(ecosystem, pkg)
 
       const response = {
         statusCode: 404,
@@ -42,6 +43,7 @@ exports.handle = function (e, ctx, mainCb) {
       Bucket: 'stpl-data',
       Key: key
     }
+    // TODO do we need individual requests?
     s3.getObject(params, function (err, versioneyeData) {
       let versioneyeDataBody = ''
       if (err) {
@@ -65,23 +67,5 @@ exports.handle = function (e, ctx, mainCb) {
       }
       mainCb(null, response)
     })
-  })
-}
-
-// callback: err, data
-// send message
-// in an case of an error just log the error. ignore.
-var sendComponentRequest = function (ecosystem, pkg) {
-  // TODO: always send a message and react accordingly: new vs update
-  // publish a component query request
-  var sns = new AWS.SNS()
-  var message = { ecosystem: ecosystem, package: pkg }
-  sns.publish({
-    Message: JSON.stringify(message),
-    TopicArn: 'arn:aws:sns:us-east-1:339468856116:stpl-component-request'
-  }, function (err, data) {
-    if (err) {
-      console.log('err when trying to publish event')
-    }
   })
 }
