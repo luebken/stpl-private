@@ -19,7 +19,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
-            <li class="authenticated"><a href="/">My Posts</a></li>
+            <li class="authenticated"><a href="/test.html">Debug</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <!-- Greet the user by name, if they're logged in -->
@@ -65,18 +65,7 @@
     </nav> <!-- /navbar -->
 
     <div class="container" role="main">
-      <h1>Hello Serverless Fans!</h1>
-    </div>
-
-
-    <div id="app">
-        My Package: <input v-model="name" v-on:keyup.enter="query" autofocus> </br>
-        <div id="details" v-if="got_result">
-            Ecosystem: {{ platform }}, Latest release: {{ lastet_release }}, Link: <a v-bind:href="package_manager_url">{{ package_manager_url }}</a>
-        </div>
-        <div id="error" v-if="got_error">
-            Upps. Couldn't find a result.
-        </div>
+      <h1>Hello Stpl.io Fans!</h1>
     </div>
 
 </body>
@@ -91,54 +80,5 @@
 <script src="/js/cognito-utils.js"></script>
 <script src="/js/config.js"></script>
 <script src="/js/login.js"></script>
-
-
-<!-- my script-->
-<script>
-    var app = new Vue({
-        el: '#app',
-        data: {
-            got_result: false,
-            got_error: false,
-            submit: "",
-            platform: "",
-            name: "",
-            lastet_release: "",
-            package_manager_url: ""
-        },
-        methods: {
-            query: function () {
-                that = this
-                url = 'https://0m4mv2f1y8.execute-api.us-east-1.amazonaws.com/dev/component/npm/' + this.name
-                console.log(url)
-                fetch(url).then(response => {
-                    if (response.status == 200) {
-                        console.log("response ", response)
-                        response.json().then(function (json) {
-                            that.name = json.librariosio.name
-                            that.platform = json.librariosio.platform
-                            that.lastet_release = json.librariosio.latest_release_number
-                            that.package_manager_url = json.librariosio.package_manager_url
-                            that.got_result = true
-                            that.got_error = false
-                            console.log(json.librariosio)
-                        })
-                    } else { // 404
-                        that.got_result = false
-                        that.got_error = true
-                    }
-                }, response => {
-                    that.got_result = false
-                    that.got_error = true
-                    console.log("error ", response)
-                });
-            }
-        },
-        mounted: function () {
-
-        }
-    })
-
-</script>
 
 </html>
