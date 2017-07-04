@@ -18,5 +18,6 @@ function gqlQuery (query, authenticated) {
     throw `Bad status code ${response.status}`
   }).catch(err => {
     console.log('Sad days: ' + err)
+    return response.json()
   })
 }
