@@ -72,7 +72,7 @@ graph LR
 
 ### Functional:
 
-Datasources: snyk, blackduck, npmjs dependencies
+Datasources: snyk, blackduck, npmjs dependencies, https://api.npms.io/v2/package/express https://npms.io/about https://api-docs.npms.io/ nodesecurity.io https://codeclimate.com/
 
 ### Non-Functional:
 usejsdoc.org
