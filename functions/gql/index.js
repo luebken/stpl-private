@@ -19,6 +19,9 @@ module.exports.handle = (event, context, cb) => {
 
   return runQuery(request.query, userInfo, request.variables)
     .then(response => {
+      // TODO differentiate: missing / updated
+      // one reason is to limit the API calls
+      // but also enable new datasources
       sns.publishMissingComponentEvent(request.variables.ecosystem, request.variables.name)
       if (response.errors && response.errors.length > 0) {
         const restified = {
