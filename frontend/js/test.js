@@ -41,6 +41,12 @@ query ($name: String!){
     latest_release_published_at
     latest_release_number
   }
+  versioneye(name: $name) {
+    name
+    language
+    description
+    version
+  }
 }`
 
     const variables = { 'name': name, ecosystem: 'npm' }

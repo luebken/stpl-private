@@ -3,6 +3,7 @@
 const resolvers = require('./resolvers')
 const G = require('graphql')
 
+// Libraries.io
 const librariesioType = new G.GraphQLObjectType({
   name: 'librariesio',
   fields: {
@@ -17,7 +18,6 @@ const librariesioType = new G.GraphQLObjectType({
     latest_release_number: { type: G.GraphQLString }
   }
 })
-
 const librariesio = {
   type: librariesioType,
   args: {
@@ -28,6 +28,27 @@ const librariesio = {
   resolve: resolvers.resolveLibrariesio
 }
 
+// VersionEye
+const versioneyeType = new G.GraphQLObjectType({
+  name: 'versioneye',
+  fields: {
+    name: { type: G.GraphQLString },
+    language: { type: G.GraphQLString },
+    description: { type: G.GraphQLString },
+    version: { type: G.GraphQLString }
+  }
+})
+const versioneye = {
+  type: versioneyeType,
+  args: {
+    name: {
+      type: G.GraphQLString
+    }
+  },
+  resolve: resolvers.resolveVersioneye
+}
+
 module.exports = {
-  Librariesio: librariesio
+  Librariesio: librariesio,
+  Versioneye: versioneye
 }

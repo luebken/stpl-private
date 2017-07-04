@@ -6,7 +6,8 @@ const types = require('./types')
 const rootQuery = new G.GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-    librariesio: types.Librariesio
+    librariesio: types.Librariesio,
+    versioneye: types.Versioneye
   }
 })
 
