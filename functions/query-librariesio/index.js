@@ -49,10 +49,10 @@ var saveToS3 = (librariosioResult, callback) => {
 
   s3.putObject(params, function (err, data) {
     if (err) {
-      console.log('Error from s3.putObject: ' + err, data)
+      console.log('Error from s3.putObject: ', err, data)
       callback(err, 'Error')
     } else {
-      console.log('Data from s3.putObject: ' + data)
+      console.log('Data from s3.putObject: ', data)
       callback(null, 'Data stored in S3')
     }
   })

@@ -23,23 +23,30 @@ function testPage () {
 
   document.getElementById('buttonGetComponent').addEventListener('click', () => {
     var name = document.getElementById('inputGetComponent').value
+    getComponentDataFor(name)
+  })
+
+  function getComponentDataFor (name) {
+    document.getElementById('output').innerHTML = ''
     console.log('getComponent for ', name)
-    const getComponentQuery = `
-{
-  component(name: "${name}") {
+    const query = `
+query ($name: String!){
+  component(name: $name) {
     name
     ecosystem
     latest_release
     link
   }
 }`
-    console.log('getComponentQuery ', getComponentQuery)
 
-    gqlQuery(getComponentQuery, {}, true).then(respObject => {
+    const variables = { 'name': name, ecosystem: 'npm' }
+
+    gqlQuery(query, variables, true).then(respObject => {
       document.getElementById('output').innerHTML = JSON.stringify(respObject, null, 2)
     }).catch(err => {
-      document.getElementById('output').innerHTML = 'Component not cached. Looking for it right now. Please check back in a second or so.'
+      document.getElementById('output').innerHTML = 'Component not cached. Looking for it right now. Please give me a sec.'
       console.log('Sad days: ' + err)
+      setTimeout(function () { getComponentDataFor(name) }, 2000)
     })
-  })
+  }
 }

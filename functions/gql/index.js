@@ -1,7 +1,8 @@
 'use strict'
 
 const G = require('graphql')
-const schema = require('./lib/schema')
+const schema = require('./gql-lib/schema')
+const utilities = require('lib/utilities')
 
 function runQuery (query, claims, variables) {
   return G.graphql(schema.Schema, query, { claims: claims }, null, variables)
@@ -13,11 +14,12 @@ module.exports.handle = (event, context, cb) => {
   console.log(`Event from user ${userInfo.name} with ID ${userInfo.sub}`)
 
   const request = JSON.parse(event.body)
-  console.log('Query: ' + request.query)
-  console.log('Variables: ' + JSON.stringify(request.variables))
+  console.log('Query: ', request.query)
+  console.log('Variables: ', request.variables)
 
   return runQuery(request.query, userInfo, request.variables)
     .then(response => {
+      utilities.sendComponentRequest(request.variables.ecosystem, request.variables.name)
       if (response.errors && response.errors.length > 0) {
         const restified = {
           statusCode: 404,

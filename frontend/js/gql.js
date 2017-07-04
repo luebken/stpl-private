@@ -1,11 +1,11 @@
-function gqlQuery (query, authenticated) {
+function gqlQuery(query, variables, authenticated) {
   var target = `${apiGPrefix}readgql`
   if (authenticated) { target = `${apiGPrefix}gql` }
   return withToken().then(token => {
     return fetch(target, {
       method: 'post',
       mode: 'cors',
-      body: JSON.stringify({query: query}),
+      body: JSON.stringify({ query: query, variables: variables }),
       headers: new Headers({
         'Accept': 'application/json',
         'Authorization': token
