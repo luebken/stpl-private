@@ -6,18 +6,15 @@ const G = require('graphql')
 const librariesioType = new G.GraphQLObjectType({
   name: 'librariesio',
   fields: {
-    name: {
-      type: G.GraphQLString
-    },
-    ecosystem: {
-      type: G.GraphQLString
-    },
-    latest_release: {
-      type: G.GraphQLString
-    },
-    link: {
-      type: G.GraphQLString
-    }
+    name: { type: G.GraphQLString },
+    platform: { type: G.GraphQLString },
+    description: { type: G.GraphQLString },
+    homepage: { type: G.GraphQLString },
+    repository_url: { type: G.GraphQLString },
+    normalized_licenses: { type: new G.GraphQLList(G.GraphQLString) },
+    rank: { type: G.GraphQLString },
+    latest_release_published_at: { type: G.GraphQLString },
+    latest_release_number: { type: G.GraphQLString }
   }
 })
 

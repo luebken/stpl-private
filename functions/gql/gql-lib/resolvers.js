@@ -17,11 +17,16 @@ module.exports.resolveLibrariesio = (context, args) => {
 
     var result = {
       name: librariosioDataBody.name,
-      ecosystem: librariosioDataBody.platform,
-      latest_release: librariosioDataBody.latest_release_number,
-      link: librariosioDataBody.homepage
+      platform: librariosioDataBody.platform,
+      description: librariosioDataBody.description,
+      homepage: librariosioDataBody.homepage,
+      repository_url: librariosioDataBody.repository_url,
+      normalized_licenses: librariosioDataBody.normalized_licenses,
+      rank: librariosioDataBody.rank,
+      latest_release_published_at: librariosioDataBody.latest_release_published_at,
+      latest_release_number: librariosioDataBody.latest_release_number
     }
-    console.log('result from resolveComponent ', result)
+    console.log('result from resolveLibrariesio: ', result)
     return result
   })
 }

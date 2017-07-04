@@ -33,9 +33,13 @@ function testPage () {
 query ($name: String!){
   librariesio(name: $name) {
     name
-    ecosystem
-    latest_release
-    link
+    platform
+    description
+    homepage
+    normalized_licenses
+    rank
+    latest_release_published_at
+    latest_release_number
   }
 }`
 
