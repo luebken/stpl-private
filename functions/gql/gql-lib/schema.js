@@ -6,13 +6,7 @@ const types = require('./types')
 const rootQuery = new G.GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-    ping: {
-      type: G.GraphQLString,
-      resolve () {
-        return 'pong'
-      }
-    },
-    component: types.Component
+    librariesio: types.Librariesio
   }
 })
 

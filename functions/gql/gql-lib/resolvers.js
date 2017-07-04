@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk')
 
-module.exports.resolveComponent = (context, args) => {
+module.exports.resolveLibrariesio = (context, args) => {
   console.log('In resolver for compenent type. Context: ', context)
   console.log('args: ', args.name)
 

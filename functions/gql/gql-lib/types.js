@@ -3,8 +3,8 @@
 const resolvers = require('./resolvers')
 const G = require('graphql')
 
-const componentType = new G.GraphQLObjectType({
-  name: 'Component',
+const librariesioType = new G.GraphQLObjectType({
+  name: 'librariesio',
   fields: {
     name: {
       type: G.GraphQLString
@@ -21,16 +21,16 @@ const componentType = new G.GraphQLObjectType({
   }
 })
 
-const component = {
-  type: componentType,
+const librariesio = {
+  type: librariesioType,
   args: {
     name: {
       type: G.GraphQLString
     }
   },
-  resolve: resolvers.resolveComponent
+  resolve: resolvers.resolveLibrariesio
 }
 
 module.exports = {
-  Component: component
+  Librariesio: librariesio
 }

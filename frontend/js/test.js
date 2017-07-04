@@ -31,7 +31,7 @@ function testPage () {
     console.log('getComponent for ', name)
     const query = `
 query ($name: String!){
-  component(name: $name) {
+  librariesio(name: $name) {
     name
     ecosystem
     latest_release
@@ -46,7 +46,7 @@ query ($name: String!){
     }).catch(err => {
       document.getElementById('output').innerHTML = 'Component not cached. Looking for it right now. Please give me a sec.'
       console.log('Sad days: ' + err)
-      setTimeout(function () { getComponentDataFor(name) }, 2000)
+      //setTimeout(function () { getComponentDataFor(name) }, 2000)
     })
   }
 }
