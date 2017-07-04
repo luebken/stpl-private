@@ -1,6 +1,6 @@
 'use strict'
 
-const utilities = require('lib/utilities')
+const utils = require('lib/utils-http')
 const AWS = require('aws-sdk')
 
 const VERSIONEYE_API_KEY = process.env.VERSIONEYE_API_KEY
@@ -24,7 +24,7 @@ exports.handle = (event, context, mainCallback) => {
 
   const url = 'https://www.versioneye.com/api/v2/products/' + product + '/' + encodeURIComponent(pkg) + '?api_key=' + VERSIONEYE_API_KEY
 
-  utilities.httpsGetJSON(url, function (err, json) {
+  utils.httpsGetJSON(url, function (err, json) {
     if (err != null) {
       console.log('error:', err)
       mainCallback(err)

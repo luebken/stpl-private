@@ -1,7 +1,7 @@
 'use strict'
 
 const AWS = require('aws-sdk')
-const utilities = require('lib/utilities')
+const utils = require('lib/utils-http')
 
 const LIBRARIES_IO_API_KEY = process.env.LIBRARIES_IO_API_KEY
 
@@ -16,7 +16,7 @@ exports.handle = (event, context, mainCallback) => {
 
   const url = 'https://libraries.io/api/' + ecosystem + '/' + encodeURIComponent(pkg) + '?api_key=' + LIBRARIES_IO_API_KEY
 
-  utilities.httpsGetJSON(url, function (err, json) {
+  utils.httpsGetJSON(url, function (err, json) {
     if (err != null) {
       console.log('error:', err)
       mainCallback(err)

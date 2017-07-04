@@ -2,7 +2,7 @@
 
 const G = require('graphql')
 const schema = require('./gql-lib/schema')
-const utilities = require('lib/utilities')
+const sns = require('lib/utils-sns')
 
 function runQuery (query, claims, variables) {
   return G.graphql(schema.Schema, query, { claims: claims }, null, variables)
@@ -19,7 +19,7 @@ module.exports.handle = (event, context, cb) => {
 
   return runQuery(request.query, userInfo, request.variables)
     .then(response => {
-      utilities.sendComponentRequest(request.variables.ecosystem, request.variables.name)
+      sns.publishMissingComponentEvent(request.variables.ecosystem, request.variables.name)
       if (response.errors && response.errors.length > 0) {
         const restified = {
           statusCode: 404,

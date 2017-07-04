@@ -1,7 +1,7 @@
 console.log('starting function')
 
 const AWS = require('aws-sdk')
-const utilities = require('lib/utilities')
+const sns = require('lib/utils-sns')
 
 exports.handle = function (e, ctx, mainCb) {
   var ecosystem = e.pathParameters.ecosystem.toLowerCase()
@@ -17,7 +17,7 @@ exports.handle = function (e, ctx, mainCb) {
   s3.getObject(params, function (err, librariosioData) {
     if (err) {
       console.log('Error from s3.getObject: ' + err + ' data:' + librariosioData)
-      utilities.sendComponentRequest(ecosystem, pkg)
+      sns.publishMissingComponentEvent(ecosystem, pkg)
 
       const response = {
         statusCode: 404,
