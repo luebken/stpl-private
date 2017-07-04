@@ -18,6 +18,9 @@ supply an env.json:
 ## TODOs
 
 [] each component anaylsis kicksoff analysis for dependencies. display tree of dependencies.
+[] client notification:
+  * https://serverless.com/blog/serverless-notifications-on-aws/
+  
 
 ## Ideas
 
