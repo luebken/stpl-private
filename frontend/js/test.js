@@ -38,6 +38,7 @@ function testPage () {
     gqlQuery(getComponentQuery, {}, true).then(respObject => {
       document.getElementById('output').innerHTML = JSON.stringify(respObject, null, 2)
     }).catch(err => {
+      document.getElementById('output').innerHTML = 'Component not cached. Looking for it right now. Please check back in a second or so.'
       console.log('Sad days: ' + err)
     })
   })
