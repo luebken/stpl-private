@@ -7,7 +7,8 @@ const rootQuery = new G.GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
     librariesio: types.Librariesio,
-    versioneye: types.Versioneye
+    versioneye: types.Versioneye,
+    npms: types.Npms
   }
 })
 

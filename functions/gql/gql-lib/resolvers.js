@@ -7,10 +7,9 @@ module.exports.resolveLibrariesio = (context, args) => {
   const s3 = new AWS.S3()
   const pkg = args.name
   const ecosystem = 'npm'
-  const key = 'librariosio/' + ecosystem + '/' + pkg
   var params = {
     Bucket: 'stpl-data',
-    Key: key
+    Key: 'librariosio/' + ecosystem + '/' + pkg
   }
   return s3.getObject(params).promise().then(librariosioData => {
     var librariosioDataBody = JSON.parse(librariosioData.Body.toString('utf-8'))
@@ -38,10 +37,9 @@ module.exports.resolveVersioneye = (context, args) => {
   const s3 = new AWS.S3()
   const pkg = args.name
   const ecosystem = 'npm'
-  const key = 'versioneye/' + ecosystem + '/' + pkg
   var params = {
     Bucket: 'stpl-data',
-    Key: key
+    Key: 'versioneye/' + ecosystem + '/' + pkg
   }
   return s3.getObject(params).promise().then(versioneyeData => {
     var versioneyeDataBody = JSON.parse(versioneyeData.Body.toString('utf-8'))
@@ -53,6 +51,33 @@ module.exports.resolveVersioneye = (context, args) => {
       version: versioneyeDataBody.homepage
     }
     console.log('result from resolveVersionEye: ', result)
+    return result
+  })
+}
+
+module.exports.resolveNpms = (context, args) => {
+  console.log('In resolver for resolveNpms. Context: ', context)
+  console.log('args: ', args.name)
+
+  const s3 = new AWS.S3()
+  const pkg = args.name
+  // const ecosystem = 'npm'
+  var params = {
+    Bucket: 'stpl-data',
+    Key: 'npms/npm/' + pkg
+  }
+  return s3.getObject(params).promise().then(npmsData => {
+    var npmsDataBody = JSON.parse(npmsData.Body.toString('utf-8'))
+
+    var result = {
+      collected: {
+        metadata: {
+          name: npmsDataBody.collected.metadata.name,
+          description: npmsDataBody.collected.metadata.description
+        }
+      }
+    }
+    console.log('result from npms: ', result)
     return result
   })
 }

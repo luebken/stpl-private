@@ -48,7 +48,50 @@ const versioneye = {
   resolve: resolvers.resolveVersioneye
 }
 
+/*
+const collectedType = new G.GraphQLObjectType({
+  name: 'collected',
+  fields: {
+    street: { type: G.GraphQLString }
+  }
+})
+*/
+
+var metadataType = new G.GraphQLObjectType({
+  name: 'metadata',
+  fields: () => ({
+    name: { type: G.GraphQLString },
+    description: { type: G.GraphQLString }
+  })
+})
+
+var collectedType = new G.GraphQLObjectType({
+  name: 'collected',
+  fields: () => ({
+    metadata: { type: metadataType }
+  })
+})
+
+// NPMS
+const npmsType = new G.GraphQLObjectType({
+  name: 'npms',
+  fields: {
+    collected: { type: collectedType }
+  }
+})
+
+const npms = {
+  type: npmsType,
+  args: {
+    name: {
+      type: G.GraphQLString
+    }
+  },
+  resolve: resolvers.resolveNpms
+}
+
 module.exports = {
   Librariesio: librariesio,
-  Versioneye: versioneye
+  Versioneye: versioneye,
+  Npms: npms
 }

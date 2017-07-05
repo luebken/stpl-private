@@ -47,6 +47,14 @@ query ($name: String!){
     description
     version
   }
+  npms(name: $name) {
+    collected {
+      metadata {
+        name
+        description
+      }
+    }
+  }
 }`
 
     const variables = { 'name': name, ecosystem: 'npm' }
