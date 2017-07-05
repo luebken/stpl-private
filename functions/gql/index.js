@@ -22,24 +22,32 @@ module.exports.handle = (event, context, cb) => {
       // TODO differentiate: missing / updated
       // one reason is to limit the API calls
       // but also enable new datasources
+      // AND: let the listeners listen and decide for themselves
       sns.publishMissingComponentEvent(request.variables.ecosystem, request.variables.name)
-      if (response.errors && response.errors.length > 0) {
-        const restified = {
-          statusCode: 404,
-          headers: { 'Access-Control-Allow-Origin': '*' },
-          body: JSON.stringify(response.errors)
-        }
-        console.log('Built response ', restified)
-        return restified
-      } else {
-        const restified = {
-          statusCode: 200,
-          headers: { 'Access-Control-Allow-Origin': '*' },
-          body: JSON.stringify(response.data)
-        }
-        console.log('Built response ', restified)
-        return restified
+
+      console.log('Query finished. Errors: ', response.errors)
+      console.log('Query finished. Data: ', response.data)
+
+      var result = {
+        statusCode: 0, // TBD below
+        headers: { 'Access-Control-Allow-Origin': '*' },
+        body: '' // TBD below
       }
+      if (response.errors && response.errors.length > 0) {
+        // if at least one data is present return
+        if (response.data.librariesio != null | response.data.versioneye != null | response.data.npms != null) {
+          result.statusCode = 200
+          result.body = JSON.stringify(response.data)
+        } else {
+          result.statusCode = 404
+          result.body = JSON.stringify(response.errors)
+        }
+      } else { // no errors
+        result.statusCode = 200
+        result.body = JSON.stringify(response.data)
+      }
+      console.log('Built result: ', result)
+      return result
     })
     .then(response => {
       console.log('calling callback with response: ', response)
