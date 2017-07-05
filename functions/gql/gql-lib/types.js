@@ -48,35 +48,28 @@ const versioneye = {
   resolve: resolvers.resolveVersioneye
 }
 
-/*
-const collectedType = new G.GraphQLObjectType({
-  name: 'collected',
-  fields: {
-    street: { type: G.GraphQLString }
-  }
-})
-*/
-
-var metadataType = new G.GraphQLObjectType({
-  name: 'metadata',
-  fields: () => ({
-    name: { type: G.GraphQLString },
-    description: { type: G.GraphQLString }
-  })
-})
-
-var collectedType = new G.GraphQLObjectType({
-  name: 'collected',
-  fields: () => ({
-    metadata: { type: metadataType }
-  })
-})
-
 // NPMS
 const npmsType = new G.GraphQLObjectType({
   name: 'npms',
   fields: {
-    collected: { type: collectedType }
+    collected: {
+      type:
+      new G.GraphQLObjectType({
+        name: 'collected',
+        fields: () => ({
+          metadata: {
+            type:
+            new G.GraphQLObjectType({
+              name: 'metadata',
+              fields: () => ({
+                name: { type: G.GraphQLString },
+                description: { type: G.GraphQLString }
+              })
+            })
+          }
+        })
+      })
+    }
   }
 })
 
