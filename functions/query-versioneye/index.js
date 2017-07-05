@@ -26,7 +26,8 @@ exports.handle = (event, context, mainCallback) => {
 
   myHttp.httpsGetJSON(url, function (err, json) {
     if (err != null) {
-      console.log('error:', err)
+      console.log('error httpsGetJSON:', err)
+      context.fail(err)
       mainCallback(err)
     }
     const key = 'versioneye/' + ecosystem + '/' + pkg
