@@ -55,6 +55,12 @@ query ($name: String!){
       metadata {
         name
         description
+        version
+        keywords
+        links {
+          homepage
+          repository
+        }
       }
     }
   }
@@ -67,6 +73,10 @@ query ($name: String!){
       document.getElementById('overview-content').innerHTML = ""
       document.getElementById('overview-content-name').innerHTML = respObject.npms.collected.metadata.name
       document.getElementById('overview-content-description').innerHTML = respObject.npms.collected.metadata.description
+      document.getElementById('overview-content-version').innerHTML = respObject.npms.collected.metadata.version
+      document.getElementById('overview-content-keywords').innerHTML = respObject.npms.collected.metadata.keywords
+      document.getElementById('overview-content-homepage').innerHTML = '<a href="' + respObject.npms.collected.metadata.links.homepage + '">' + respObject.npms.collected.metadata.links.homepage + ' </>'
+      document.getElementById('overview-content-repository').innerHTML = '<a href="' + respObject.npms.collected.metadata.links.repository + '">' + respObject.npms.collected.metadata.links.repository + ' </>'
 
       // debug
       document.getElementById('output').innerHTML = JSON.stringify(respObject, null, 2)

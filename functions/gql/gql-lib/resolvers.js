@@ -49,7 +49,7 @@ module.exports.resolveVersioneye = (context, args) => {
       name: versioneyeDataBody.name,
       language: versioneyeDataBody.language,
       description: versioneyeDataBody.description,
-      version: versioneyeDataBody.homepage
+      version: versioneyeDataBody.version
     }
     console.log('result from resolveVersionEye: ', result)
     return result
@@ -74,7 +74,13 @@ module.exports.resolveNpms = (context, args) => {
       collected: {
         metadata: {
           name: npmsDataBody.collected.metadata.name,
-          description: npmsDataBody.collected.metadata.description
+          description: npmsDataBody.collected.metadata.description,
+          version: npmsDataBody.collected.metadata.version,
+          keywords: npmsDataBody.collected.metadata.keywords,
+          links: {
+            homepage: npmsDataBody.collected.metadata.links.homepage,
+            repository: npmsDataBody.collected.metadata.links.repository
+          }
         }
       }
     }

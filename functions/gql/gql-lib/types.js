@@ -64,7 +64,18 @@ const npmsType = new G.GraphQLObjectType({
               name: 'metadata',
               fields: () => ({
                 name: { type: G.GraphQLString },
-                description: { type: G.GraphQLString }
+                version: { type: G.GraphQLString },
+                description: { type: G.GraphQLString },
+                keywords: { type: new G.GraphQLList(G.GraphQLString) },
+                links: {
+                  type: new G.GraphQLObjectType({
+                    name: 'links',
+                    fields: () => ({
+                      homepage: { type: G.GraphQLString },
+                      repository: { type: G.GraphQLString }
+                    })
+                  })
+                }
               })
             })
           }
