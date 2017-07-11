@@ -81,6 +81,24 @@ const npmsType = new G.GraphQLObjectType({
           }
         })
       })
+    },
+    evaluation: {
+      type: new G.GraphQLObjectType({
+        name: 'evaluation',
+        fields: () => ({
+          quality: {
+            type: new G.GraphQLObjectType({
+              name: 'quality',
+              fields: () => ({
+                carefulness: { type: G.GraphQLFloat },
+                tests: { type: G.GraphQLFloat },
+                health: { type: G.GraphQLFloat },
+                branding: { type: G.GraphQLFloat }
+              })
+            })
+          }
+        })
+      })
     }
   }
 })

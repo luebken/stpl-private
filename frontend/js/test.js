@@ -85,6 +85,14 @@ query ($name: String!){
         }
       }
     }
+    evaluation {
+      quality {
+        carefulness
+        tests
+        health
+        branding
+      }
+    }
   }
   snyk(name: $name) {
     readme
@@ -106,7 +114,6 @@ query ($name: String!){
         keywords_html += '<span class="label label-default">' + keywords[i] + '</span> '
       }
       document.getElementById('overview-content-keywords').innerHTML = keywords_html
-
       document.getElementById('overview-content-homepage').innerHTML = '<a href="' + respObject.npms.collected.metadata.links.homepage + '">' + respObject.npms.collected.metadata.links.homepage + ' </>'
       document.getElementById('overview-content-repository').innerHTML = '<a href="' + respObject.npms.collected.metadata.links.repository + '">' + respObject.npms.collected.metadata.links.repository + ' </>'
 
@@ -119,6 +126,37 @@ query ($name: String!){
       } else {
         document.getElementById('security-content').innerHTML = "No security information found for " + respObject.npms.collected.metadata.name
       }
+
+
+      // quality
+      document.getElementById('quality-content-carefulness').innerHTML = respObject.npms.evaluation.quality.carefulness
+      document.getElementById('quality-content-tests').innerHTML = respObject.npms.evaluation.quality.tests
+      document.getElementById('quality-content-health').innerHTML = respObject.npms.evaluation.quality.health
+      document.getElementById('quality-content-branding').innerHTML = respObject.npms.evaluation.quality.branding
+
+      var ctx = document.getElementById("myChart");
+      var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Carefulness'],
+          datasets: [{
+            label: 'Carefulness',
+            data: [respObject.npms.evaluation.quality.carefulness, 1 - respObject.npms.evaluation.quality.carefulness],
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(0, 0, 0, 0.0)'
+            ],
+            borderColor: [
+              'rgba(255, 159, 64, 1)',
+              'rgba(0, 0, 0, 0.0)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: false
+        }
+      });
 
       // debug
       document.getElementById('output').innerHTML = JSON.stringify(respObject, null, 2)

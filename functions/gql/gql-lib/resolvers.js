@@ -82,6 +82,14 @@ module.exports.resolveNpms = (context, args) => {
             repository: npmsDataBody.collected.metadata.links.repository
           }
         }
+      },
+      evaluation: {
+        quality: {
+          carefulness: npmsDataBody.evaluation.quality.carefulness,
+          tests: npmsDataBody.evaluation.quality.tests,
+          health: npmsDataBody.evaluation.quality.health,
+          branding: npmsDataBody.evaluation.quality.branding
+        }
       }
     }
     console.log('result from npms: ', result)

@@ -75,7 +75,8 @@
       Examining dependencies is a big topic. Here are some categories to get you started. Fetch data for favourite component:
       <div style="width:300px; display:inline-block;">
         <form id="features" action="">
-          <input id="inputGetComponent" type="text" autofocus value="express"> <button type="button" id="buttonGetComponent" class="btn btn-sm btn-default">Fetch</button>
+          <input id="inputGetComponent" type="text" autofocus value="express"> <button type="button" id="buttonGetComponent"
+            class="btn btn-sm btn-default">Fetch</button>
         </form>
       </div>
       <ul class="nav nav-tabs">
@@ -118,9 +119,23 @@
 
         <div id="quality" class="tab-pane fade in">
           <h3>Quality</h3>
-          and Sustainability
           <p class="no-data">Please fetch data first.</p>
-          <p class="data-available">Awesome quality data.</p>
+          <div class="data-available panel panel-default col-md-5">
+            <div class="panel-heading">Quality assesment by npms</div>
+            <div class="panel-body">
+              <dl class="dl-horizontal">
+                <dt>carefulness:</dt>
+                <dd id="quality-content-carefulness"></dd>
+                <dt>tests:</dt>
+                <dd id="quality-content-tests"></dd>
+                <dt>health:</dt>
+                <dd id="quality-content-health"></dd>
+                <dt>branding:</dt>
+                <dd id="quality-content-branding"></dd>
+              </dl>
+              <canvas id="myChart" width="150" height="150"></canvas>
+            </div>
+          </div>
         </div>
 
         <div id="compliance" class="tab-pane fade in">
@@ -152,6 +167,7 @@
 
 <!-- script libs -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.7.1/showdown.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
 <script src="/js/jquery-1.12.4.min.js"></script>
 <script src="/js/bootstrap-3.3.7.min.js"></script>
 <script src="/js/amazon-cognito-sdk.v1.16.0.min.js"></script>
