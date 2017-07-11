@@ -95,8 +95,26 @@ const npms = {
   resolve: resolvers.resolveNpms
 }
 
+// Snyk
+const snykType = new G.GraphQLObjectType({
+  name: 'snyk',
+  fields: {
+    readme: { type: G.GraphQLString }
+  }
+})
+const snyk = {
+  type: snykType,
+  args: {
+    name: {
+      type: G.GraphQLString
+    }
+  },
+  resolve: resolvers.resolveSnyk
+}
+
 module.exports = {
   Librariesio: librariesio,
   Versioneye: versioneye,
-  Npms: npms
+  Npms: npms,
+  Snyk: snyk
 }

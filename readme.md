@@ -87,5 +87,12 @@ use graphql
 * Error handling !!!
 * Throttle requests ? 
 
+## Snyk
+
+* cd snyk
+* clone repo https://github.com/snyk/vulnerabilitydb
+* delete all but data and license
+* aws s3 sync data/ s3://vulnerabilitydb
+
 
 https://runkit.com/home

@@ -64,6 +64,9 @@ query ($name: String!){
       }
     }
   }
+  snyk(name: $name) {
+    readme
+  }
 }`
 
     const variables = { 'name': name, ecosystem: 'npm' }
@@ -77,6 +80,13 @@ query ($name: String!){
       document.getElementById('overview-content-keywords').innerHTML = respObject.npms.collected.metadata.keywords
       document.getElementById('overview-content-homepage').innerHTML = '<a href="' + respObject.npms.collected.metadata.links.homepage + '">' + respObject.npms.collected.metadata.links.homepage + ' </>'
       document.getElementById('overview-content-repository').innerHTML = '<a href="' + respObject.npms.collected.metadata.links.repository + '">' + respObject.npms.collected.metadata.links.repository + ' </>'
+
+      // security
+      console.log(respObject.snyk)
+      var converter = new showdown.Converter()
+      converter.setOption('headerLevelStart', '3');
+      readmeHtml = converter.makeHtml(respObject.snyk.readme)
+      document.getElementById('security-content').innerHTML = readmeHtml
 
       // debug
       document.getElementById('output').innerHTML = JSON.stringify(respObject, null, 2)

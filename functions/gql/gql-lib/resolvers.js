@@ -88,3 +88,25 @@ module.exports.resolveNpms = (context, args) => {
     return result
   })
 }
+
+module.exports.resolveSnyk = (context, args) => {
+  console.log('In resolver for resolveSnyk. Context: ', context)
+  console.log('args: ', args.name)
+
+  const s3 = new AWS.S3()
+  const pkg = args.name
+  const ecosystem = 'npm'
+  var params = {
+    Bucket: 'stpl-data',
+    Key: 'snyk/' + ecosystem + '/' + pkg
+  }
+  return s3.getObject(params).promise().then(snykData => {
+    var snykDataBody = JSON.parse(snykData.Body.toString('utf-8'))
+
+    var result = {
+      readme: snykDataBody.readme
+    }
+    console.log('result from snyk: ', result)
+    return result
+  })
+}
