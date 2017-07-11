@@ -1,5 +1,27 @@
 
+function toggleDataVisible(visible) {
+  if (visible) {
+    $(".data-available").css({
+      display: "block",
+    })
+    $(".no-data").css({
+      display: "none",
+    })
+  } else {
+    $(".data-available").css({
+      display: "none",
+    })
+    $(".no-data").css({
+      display: "block",
+    })
+  }
+}
+
+
+
 function testPage() {
+
+  toggleDataVisible(false)
 
   document.getElementById('buttonTestEndpoint').addEventListener('click', () => {
     console.log('buttonTestEndpoint')
@@ -72,8 +94,9 @@ query ($name: String!){
     const variables = { 'name': name, ecosystem: 'npm' }
 
     gqlQuery(query, variables, true).then(respObject => {
+      toggleDataVisible(true)
+
       // overview
-      document.getElementById('overview-content').innerHTML = ""
       document.getElementById('overview-content-name').innerHTML = respObject.npms.collected.metadata.name
       document.getElementById('overview-content-description').innerHTML = respObject.npms.collected.metadata.description
       document.getElementById('overview-content-version').innerHTML = respObject.npms.collected.metadata.version
@@ -91,6 +114,8 @@ query ($name: String!){
       // debug
       document.getElementById('output').innerHTML = JSON.stringify(respObject, null, 2)
     }).catch(err => {
+      toggleDataVisible(false)
+
       document.getElementById('output').innerHTML = 'Component not cached. Looking for it right now. Please give me a sec.'
       console.log('Sad days: ' + err)
       //setTimeout(function () { getComponentDataFor(name) }, 2000)
