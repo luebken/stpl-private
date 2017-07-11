@@ -15,7 +15,8 @@ const librariesioType = new G.GraphQLObjectType({
     normalized_licenses: { type: new G.GraphQLList(G.GraphQLString) },
     rank: { type: G.GraphQLString },
     latest_release_published_at: { type: G.GraphQLString },
-    latest_release_number: { type: G.GraphQLString }
+    latest_release_number: { type: G.GraphQLString },
+    keywords: { type: new G.GraphQLList(G.GraphQLString) }
   }
 })
 const librariesio = {

@@ -40,6 +40,7 @@ query ($name: String!){
     rank
     latest_release_published_at
     latest_release_number
+    keywords
   }
   versioneye(name: $name) {
     name

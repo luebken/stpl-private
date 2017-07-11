@@ -23,7 +23,8 @@ module.exports.resolveLibrariesio = (context, args) => {
       normalized_licenses: librariosioDataBody.normalized_licenses,
       rank: librariosioDataBody.rank,
       latest_release_published_at: librariosioDataBody.latest_release_published_at,
-      latest_release_number: librariosioDataBody.latest_release_number
+      latest_release_number: librariosioDataBody.latest_release_number,
+      keywords: librariosioDataBody.keywords
     }
     console.log('result from resolveLibrariesio: ', result)
     return result
