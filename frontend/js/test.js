@@ -111,11 +111,14 @@ query ($name: String!){
       document.getElementById('overview-content-repository').innerHTML = '<a href="' + respObject.npms.collected.metadata.links.repository + '">' + respObject.npms.collected.metadata.links.repository + ' </>'
 
       // security
-      console.log(respObject.snyk)
-      var converter = new showdown.Converter()
-      converter.setOption('headerLevelStart', '3');
-      readmeHtml = converter.makeHtml(respObject.snyk.readme)
-      document.getElementById('security-content').innerHTML = readmeHtml
+      if (respObject.snyk) {
+        var converter = new showdown.Converter()
+        converter.setOption('headerLevelStart', '3');
+        readmeHtml = converter.makeHtml(respObject.snyk.readme)
+        document.getElementById('security-content').innerHTML = readmeHtml
+      } else {
+        document.getElementById('security-content').innerHTML = "No security information found for " + respObject.npms.collected.metadata.name
+      }
 
       // debug
       document.getElementById('output').innerHTML = JSON.stringify(respObject, null, 2)
