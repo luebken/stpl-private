@@ -100,7 +100,13 @@ query ($name: String!){
       document.getElementById('overview-content-name').innerHTML = respObject.npms.collected.metadata.name
       document.getElementById('overview-content-description').innerHTML = respObject.npms.collected.metadata.description
       document.getElementById('overview-content-version').innerHTML = respObject.npms.collected.metadata.version
-      document.getElementById('overview-content-keywords').innerHTML = respObject.npms.collected.metadata.keywords
+      var keywords = respObject.npms.collected.metadata.keywords
+      var keywords_html = ""
+      for (var i in keywords) {
+        keywords_html += '<span class="label label-default">' + keywords[i] + '</span> '
+      }
+      document.getElementById('overview-content-keywords').innerHTML = keywords_html
+
       document.getElementById('overview-content-homepage').innerHTML = '<a href="' + respObject.npms.collected.metadata.links.homepage + '">' + respObject.npms.collected.metadata.links.homepage + ' </>'
       document.getElementById('overview-content-repository').innerHTML = '<a href="' + respObject.npms.collected.metadata.links.repository + '">' + respObject.npms.collected.metadata.links.repository + ' </>'
 
