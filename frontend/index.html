@@ -69,16 +69,10 @@
   <!-- /navbar -->
 
   <div class="container" role="main">
-    <h1>Welcome to stpl.io</h1>
+    <h1 id="header">Welcome to stpl.io</h1>
+    <div class="anon-only"> Please login</div>
     <div class="anon-only"> Please login</div>
     <div class="authenticated">
-      Examining dependencies is a big topic. Here are some categories to get you started. Fetch data for favourite component:
-      <div style="width:300px; display:inline-block;">
-        <form id="features" action="">
-          <input id="inputGetComponent" type="text" autofocus value="express"> <button type="button" id="buttonGetComponent"
-            class="btn btn-sm btn-default">Fetch</button>
-        </form>
-      </div>
       <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#overview">Overview</a></li>
         <li><a data-toggle="tab" href="#security">Security</a></li>
@@ -178,7 +172,7 @@
 <script src="/js/login.js"></script>
 <script src="/js/main.js"></script>
 <script>
-  testPage()
+  main()
 
 </script>
 
