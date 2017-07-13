@@ -91,6 +91,7 @@ function queryData() {
     }
     securityHTML += '<h3>Security information by NodeSecurity</h3>'
     securityHTML += '<h4>' + respObject.daviddm.status + '</h4>'
+    securityHTML += 'More info at: <a href = "https://nodesecurity.io/check/' + respObject.main.name + '">' + 'nodesecurity.io/check/' + respObject.main.name + ' </a > '
 
     document.getElementById('security-content').innerHTML = securityHTML
 
