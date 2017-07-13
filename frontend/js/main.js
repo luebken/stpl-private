@@ -15,6 +15,8 @@ function queryData() {
 
   document.getElementById('header').innerHTML = '... loading ...'
   document.getElementById('output').innerHTML = ''
+  toggleDataVisible(false)
+
 
   var ecosystem = ""
   var name = ""
