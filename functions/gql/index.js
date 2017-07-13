@@ -2,7 +2,7 @@
 
 const G = require('graphql')
 const schema = require('./gql-lib/schema')
-const sns = require('lib/utils-sns')
+const sns = require('./lib/utils-sns')
 
 function runQuery (query, claims, variables) {
   return G.graphql(schema.Schema, query, { claims: claims }, null, variables)
