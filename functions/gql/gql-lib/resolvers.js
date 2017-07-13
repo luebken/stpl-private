@@ -18,7 +18,7 @@ module.exports.resolveMain = (context, args) => {
     console.log('resolveMain: ', coreResult)
     return coreResult
   }).catch(err => {
-    console.err('Err in resolveMain:', err)
+    console.error('Err in resolveMain:', err)
   })
 }
 
@@ -49,6 +49,8 @@ module.exports.resolveLibrariesio = (context, args) => {
     }
     console.log('result from resolveLibrariesio: ', result)
     return result
+  }).catch(err => {
+    console.error('Err in resolveLibrariesio:', err)
   })
 }
 
@@ -73,6 +75,8 @@ module.exports.resolveVersioneye = (context, args) => {
     }
     console.log('result from resolveVersionEye: ', result)
     return result
+  }).catch(err => {
+    console.error('Err in resolveVersioneye:', err)
   })
 }
 
@@ -119,6 +123,8 @@ module.exports.resolveNpms = (context, args) => {
     }
     console.log('result from npms: ', result)
     return result
+  }).catch(err => {
+    console.error('Err in resolveNpms:', err)
   })
 }
 
@@ -140,6 +146,8 @@ module.exports.resolveSnyk = (context, args) => {
     }
     console.log('result from snyk: ', result)
     return result
+  }).catch(err => {
+    console.error('Err in resolveSnyk:', err)
   })
 }
 
