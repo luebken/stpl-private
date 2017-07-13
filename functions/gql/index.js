@@ -21,7 +21,8 @@ module.exports.handle = (event, context, cb) => {
     .then(response => {
       // TODO differentiate: missing / updated
       // TODO ensure main is always present
-      sns.publishMissingComponentEvent(response.data.main.ecosystem, response.data.main.name, response.data.main.repository)
+      var repository = response.data.main ? response.data.main.repository : ''
+      sns.publishMissingComponentEvent(request.variables.ecosystem, request.variables.name, repository)
 
       console.log('Query finished. Errors: ', response.errors)
       console.log('Query finished. Data: ', response.data)
