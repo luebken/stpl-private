@@ -13,7 +13,7 @@ const mainType = new G.GraphQLObjectType({
     repository: { type: G.GraphQLString }
   }
 })
-const main = {
+module.exports.Main = {
   type: mainType,
   args: {
     name: { type: G.GraphQLString }
@@ -37,7 +37,7 @@ const librariesioType = new G.GraphQLObjectType({
     keywords: { type: new G.GraphQLList(G.GraphQLString) }
   }
 })
-const librariesio = {
+module.exports.Librariesio = {
   type: librariesioType,
   args: {
     name: {
@@ -57,7 +57,7 @@ const versioneyeType = new G.GraphQLObjectType({
     version: { type: G.GraphQLString }
   }
 })
-const versioneye = {
+module.exports.Versioneye = {
   type: versioneyeType,
   args: {
     name: {
@@ -131,7 +131,7 @@ const npmsType = new G.GraphQLObjectType({
   }
 })
 
-const npms = {
+module.exports.Npms = {
   type: npmsType,
   args: {
     name: {
@@ -148,7 +148,8 @@ const snykType = new G.GraphQLObjectType({
     readme: { type: G.GraphQLString }
   }
 })
-const snyk = {
+
+module.exports.Snyk = {
   type: snykType,
   args: {
     name: {
@@ -156,12 +157,4 @@ const snyk = {
     }
   },
   resolve: resolvers.resolveSnyk
-}
-
-module.exports = {
-  Main: main,
-  Librariesio: librariesio,
-  Versioneye: versioneye,
-  Npms: npms,
-  Snyk: snyk
 }
