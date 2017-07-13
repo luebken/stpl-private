@@ -76,6 +76,7 @@ const npmsType = new G.GraphQLObjectType({
                     })
                   })
                 },
+                license: { type: G.GraphQLString },
                 dependencies: {
                   type: new G.GraphQLList(new G.GraphQLObjectType({
                     name: 'dependencies',

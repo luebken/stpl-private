@@ -85,6 +85,7 @@ module.exports.resolveNpms = (context, args) => {
             homepage: npmsDataBody.collected.metadata.links.homepage,
             repository: npmsDataBody.collected.metadata.links.repository
           },
+          license: npmsDataBody.collected.metadata.license,
           dependencies: dependenciesAsArray
         }
       },
