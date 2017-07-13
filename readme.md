@@ -1,30 +1,36 @@
-# Stpl
+# Stpl - Your Apps. Your Stacks.
 
  * http://i.stpl.io
  * https://0m4mv2f1y8.execute-api.us-east-1.amazonaws.com/dev/component/npm/express
 
-## Deploy
-supply an env.json:
+## Develop
+
+### Prerequisites
+
+Get an API Key at: https://libraries.io/account and https://www.versioneye.com/settings/api
+
+create an env.json:
+
     {
         "LIBRARIES_IO_API_KEY": "TODO",
         "VERSIONEYE_API_KEY": "TODO"
     }
 
 
-    $ apex deploy --env-file env.json
+Install aws tools, apex.
 
-    $ aws s3 cp frontend/index.html s3://i.stpl.io --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
+    $ make deploy
 
 ## TODOs
 
 [] each component anaylsis kicksoff analysis for dependencies. display tree of dependencies.
+  
+Ï
+## Ideas
+https://knsv.github.io/mermaid/#links-between-nodes
+
 [] client notification:
   * https://serverless.com/blog/serverless-notifications-on-aws/
-  
-
-## Ideas
-
-https://knsv.github.io/mermaid/#links-between-nodes
 
 ## Component data cached
 ```mermaid
