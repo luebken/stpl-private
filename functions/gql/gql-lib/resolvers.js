@@ -166,6 +166,7 @@ module.exports.resolveDaviddm = (context, args) => {
     var daviddmBody = JSON.parse(daviddmData.Body.toString('utf-8'))
 
     var result = {
+      status: daviddmBody.status,
       deps: daviddmBody.deps
     }
     console.log('result from daviddm: ', result)

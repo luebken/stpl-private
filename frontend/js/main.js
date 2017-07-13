@@ -81,14 +81,18 @@ function queryData() {
     document.getElementById('overview-content-dependencies').innerHTML = dependencies_html
 
     // security
+    var securityHTML = '<h3>Security information by Snyk</h3>'
     if (respObject.snyk) {
       var converter = new showdown.Converter()
       converter.setOption('headerLevelStart', '3');
-      readmeHtml = converter.makeHtml(respObject.snyk.readme)
-      document.getElementById('security-content').innerHTML = readmeHtml
+      securityHTML += converter.makeHtml(respObject.snyk.readme)
     } else {
-      document.getElementById('security-content').innerHTML = "No security information found for " + respObject.npms.collected.metadata.name
+      securityHTML += "Snyk has no security for " + respObject.npms.collected.metadata.name
     }
+    securityHTML += '<h3>Security information by NodeSecurity</h3>'
+    securityHTML += '<h4>' + respObject.daviddm.status + '</h4>'
+
+    document.getElementById('security-content').innerHTML = securityHTML
 
     // quality
     document.getElementById('quality-content-carefulness').innerHTML = respObject.npms.evaluation.quality.carefulness
@@ -233,6 +237,7 @@ query ($name: String!){
     readme
   }
   daviddm(name: $name) {
+    status
     deps {
       name
       required

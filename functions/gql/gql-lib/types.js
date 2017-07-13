@@ -152,9 +152,7 @@ const snykType = new G.GraphQLObjectType({
 module.exports.Snyk = {
   type: snykType,
   args: {
-    name: {
-      type: G.GraphQLString
-    }
+    name: { type: G.GraphQLString }
   },
   resolve: resolvers.resolveSnyk
 }
@@ -163,6 +161,7 @@ module.exports.Snyk = {
 const daviddmType = new G.GraphQLObjectType({
   name: 'daviddm',
   fields: {
+    status: { type: G.GraphQLString },
     deps: {
       type: new G.GraphQLList(new G.GraphQLObjectType({
         name: 'deps',
