@@ -80,6 +80,7 @@ graph LR
 
 Datasources: snyk, blackduck, npmjs dependencies, https://api.npms.io/v2/package/express https://npms.io/about https://api-docs.npms.io/ nodesecurity.io https://codeclimate.com/
 https://api.nodesecurity.io/check/express/4.9.8
+https://api.nodesecurity.io/advisories
 ### Non-Functional:
 usejsdoc.org
 use graphql
@@ -103,4 +104,5 @@ use graphql
 
 https://runkit.com/home
 
+https://nodesecurity.io/check/mocha
 
