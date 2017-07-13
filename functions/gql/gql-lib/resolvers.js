@@ -62,13 +62,17 @@ module.exports.resolveNpms = (context, args) => {
 
   const s3 = new AWS.S3()
   const pkg = args.name
-  // const ecosystem = 'npm'
   var params = {
     Bucket: 'stpl-data',
     Key: 'npms/npm/' + pkg
   }
   return s3.getObject(params).promise().then(npmsData => {
     var npmsDataBody = JSON.parse(npmsData.Body.toString('utf-8'))
+
+    var dependenciesAsArray = []
+    for (var property in npmsDataBody.collected.metadata.dependencies) {
+      dependenciesAsArray.push({ 'name': property, 'version': npmsDataBody.collected.metadata.dependencies[property] })
+    }
 
     var result = {
       collected: {
@@ -80,7 +84,8 @@ module.exports.resolveNpms = (context, args) => {
           links: {
             homepage: npmsDataBody.collected.metadata.links.homepage,
             repository: npmsDataBody.collected.metadata.links.repository
-          }
+          },
+          dependencies: dependenciesAsArray
         }
       },
       evaluation: {

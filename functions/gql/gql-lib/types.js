@@ -75,6 +75,15 @@ const npmsType = new G.GraphQLObjectType({
                       repository: { type: G.GraphQLString }
                     })
                   })
+                },
+                dependencies: {
+                  type: new G.GraphQLList(new G.GraphQLObjectType({
+                    name: 'dependencies',
+                    fields: () => ({
+                      name: { type: G.GraphQLString },
+                      version: { type: G.GraphQLString }
+                    })
+                  }))
                 }
               })
             })
