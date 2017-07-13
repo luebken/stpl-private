@@ -65,13 +65,13 @@ function queryData() {
     document.getElementById('overview-content-license').innerHTML = respObject.npms.collected.metadata.license
 
     // dependencies
-    var dependencies = respObject.npms.collected.metadata.dependencies
+    var dependencies = respObject.daviddm.deps
     var dependencies_html = ''
     if (dependencies.length > 0) {
       dependencies_html = '<dl class="dl-horizontal">'
       for (var i in dependencies) {
         dependencies_html += '<dt> <a href="http://i.stpl.io/#!/component/npm/' + dependencies[i].name + '">' + dependencies[i].name + ' </a> </dt> '
-        dependencies_html += '<dd>' + dependencies[i].version + '</dd> '
+        dependencies_html += '<dd>' + dependencies[i].required + ' | ' + dependencies[i].status + '</dd> '
       }
       dependencies_html += '</dl>'
     } else {
@@ -231,6 +231,15 @@ query ($name: String!){
   }
   snyk(name: $name) {
     readme
+  }
+  daviddm(name: $name) {
+    deps {
+      name
+      required
+      stable
+      latest
+      status
+    }
   }
 }`
 

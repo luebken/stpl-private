@@ -26,7 +26,9 @@ exports.handle = (event, context, mainCallback) => {
         console.log('error:', err)
         mainCallback(err)
       }
-      const key = 'daviddm/' + org + '/' + project
+      /// TODO use org / project. but that makes the gql more complicated
+      // const key = 'daviddm/' + org + '/' + project
+      const key = 'daviddm/by-ep/' + ecosystem + '/' + pkg
       myS3.SaveJsonToS3(key, json).then((msg) => {
         console.log('success: SaveJsonToS3', msg)
         mainCallback()

@@ -158,3 +158,32 @@ module.exports.Snyk = {
   },
   resolve: resolvers.resolveSnyk
 }
+
+// Daviddm
+const daviddmType = new G.GraphQLObjectType({
+  name: 'daviddm',
+  fields: {
+    deps: {
+      type: new G.GraphQLList(new G.GraphQLObjectType({
+        name: 'deps',
+        fields: () => ({
+          name: { type: G.GraphQLString },
+          required: { type: G.GraphQLString },
+          stable: { type: G.GraphQLString },
+          latest: { type: G.GraphQLString },
+          status: { type: G.GraphQLString }
+        })
+      }))
+    }
+  }
+})
+
+module.exports.Daviddm = {
+  type: daviddmType,
+  args: {
+    name: {
+      type: G.GraphQLString
+    }
+  },
+  resolve: resolvers.resolveDaviddm
+}

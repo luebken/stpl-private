@@ -142,3 +142,25 @@ module.exports.resolveSnyk = (context, args) => {
     return result
   })
 }
+
+module.exports.resolveDaviddm = (context, args) => {
+  console.log('resolveDaviddm. Context: ', context, 'Args: ', args)
+
+  const s3 = new AWS.S3()
+  const pkg = args.name
+  const ecosystem = 'npm'
+
+  var params = {
+    Bucket: 'stpl-data',
+    Key: 'daviddm/by-ep/' + ecosystem + '/' + pkg
+  }
+  return s3.getObject(params).promise().then(daviddmData => {
+    var daviddmBody = JSON.parse(daviddmData.Body.toString('utf-8'))
+
+    var result = {
+      deps: daviddmBody.deps
+    }
+    console.log('result from daviddm: ', result)
+    return result
+  })
+}
