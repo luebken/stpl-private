@@ -1,8 +1,29 @@
 const AWS = require('aws-sdk')
+const s3 = new AWS.S3()
+
+module.exports.resolveMain = (context, args) => {
+  console.log('resolveMain. Context: ', context, 'Args: ', args)
+  var params = {
+    Bucket: 'stpl-data',
+    Key: 'npms/npm/' + args.name
+  }
+  // main currently relies on npms
+  return s3.getObject(params).promise().then(npmsData => {
+    var npmsDataBody = JSON.parse(npmsData.Body.toString('utf-8'))
+    var coreResult = {
+      'name': npmsDataBody.collected.metadata.name,
+      'ecosystem': 'npm',
+      'repository': npmsDataBody.collected.metadata.links.repository
+    }
+    console.log('resolveMain: ', coreResult)
+    return coreResult
+  }).catch(err => {
+    console.err('Err in resolveMain:', err)
+  })
+}
 
 module.exports.resolveLibrariesio = (context, args) => {
-  console.log('In resolver for LibrariesIO Context: ', context)
-  console.log('args: ', args.name)
+  console.log('resolveLibrariesio. Context: ', context, 'Args: ', args)
 
   const s3 = new AWS.S3()
   const pkg = args.name
@@ -32,8 +53,7 @@ module.exports.resolveLibrariesio = (context, args) => {
 }
 
 module.exports.resolveVersioneye = (context, args) => {
-  console.log('In resolver for resolveVersionEye. Context: ', context)
-  console.log('args: ', args.name)
+  console.log('resolveVersioneye. Context: ', context, 'Args: ', args)
 
   const s3 = new AWS.S3()
   const pkg = args.name
@@ -57,8 +77,7 @@ module.exports.resolveVersioneye = (context, args) => {
 }
 
 module.exports.resolveNpms = (context, args) => {
-  console.log('In resolver for resolveNpms. Context: ', context)
-  console.log('args: ', args.name)
+  console.log('resolveNpms. Context: ', context, 'Args: ', args)
 
   const s3 = new AWS.S3()
   const pkg = args.name
@@ -104,8 +123,7 @@ module.exports.resolveNpms = (context, args) => {
 }
 
 module.exports.resolveSnyk = (context, args) => {
-  console.log('In resolver for resolveSnyk. Context: ', context)
-  console.log('args: ', args.name)
+  console.log('resolveSnyk. Context: ', context, 'Args: ', args)
 
   const s3 = new AWS.S3()
   const pkg = args.name

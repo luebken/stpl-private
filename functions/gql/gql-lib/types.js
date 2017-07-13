@@ -3,6 +3,24 @@
 const resolvers = require('./resolvers')
 const G = require('graphql')
 
+// Core data
+// Data which is save to use.
+const mainType = new G.GraphQLObjectType({
+  name: 'main',
+  fields: {
+    name: { type: G.GraphQLString },
+    ecosystem: { type: G.GraphQLString },
+    repository: { type: G.GraphQLString }
+  }
+})
+const main = {
+  type: mainType,
+  args: {
+    name: { type: G.GraphQLString }
+  },
+  resolve: resolvers.resolveMain
+}
+
 // Libraries.io
 const librariesioType = new G.GraphQLObjectType({
   name: 'librariesio',
@@ -141,6 +159,7 @@ const snyk = {
 }
 
 module.exports = {
+  Main: main,
   Librariesio: librariesio,
   Versioneye: versioneye,
   Npms: npms,

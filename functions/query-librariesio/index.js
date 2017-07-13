@@ -1,7 +1,7 @@
 'use strict'
 
-const utils = require('lib/utils-http')
-const myS3 = require('lib/utils-s3')
+const utils = require('./lib/utils-http')
+const myS3 = require('./lib/utils-s3')
 
 const LIBRARIES_IO_API_KEY = process.env.LIBRARIES_IO_API_KEY
 

@@ -20,10 +20,8 @@ module.exports.handle = (event, context, cb) => {
   return runQuery(request.query, userInfo, request.variables)
     .then(response => {
       // TODO differentiate: missing / updated
-      // one reason is to limit the API calls
-      // but also enable new datasources
-      // AND: let the listeners listen and decide for themselves
-      sns.publishMissingComponentEvent(request.variables.ecosystem, request.variables.name)
+      // TODO ensure main is always present
+      sns.publishMissingComponentEvent(response.data.main.ecosystem, response.data.main.name, response.data.main.repository)
 
       console.log('Query finished. Errors: ', response.errors)
       console.log('Query finished. Data: ', response.data)

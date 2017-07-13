@@ -180,6 +180,11 @@ function toggleDataVisible(visible) {
 
 const query = `
 query ($name: String!){
+  main(name: $name) {
+    name
+    ecosystem
+    repository
+  }
   librariesio(name: $name) {
     name
     platform
