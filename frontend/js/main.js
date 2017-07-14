@@ -68,12 +68,22 @@ function queryData() {
     var dependencies = respObject.daviddm.deps
     var dependencies_html = ''
     if (dependencies.length > 0) {
-      dependencies_html = '<dl class="dl-horizontal">'
+      dependencies_html = '<table>'
       for (var i in dependencies) {
-        dependencies_html += '<dt> <a href="http://i.stpl.io/#!/component/npm/' + dependencies[i].name + '">' + dependencies[i].name + ' </a> </dt> '
-        dependencies_html += '<dd>' + dependencies[i].required + ' | ' + dependencies[i].status + '</dd> '
+        dependencies_html += '<tr>'
+        dependencies_html += '<td style="padding-right:8px;float:right;"> <a href="http://i.stpl.io/#!/component/npm/' + dependencies[i].name + '">' + dependencies[i].name + ' </a>: </td> '
+        dependencies_html += '<td style="padding-right:8px;">' + dependencies[i].required + '</td> '
+        if (dependencies[i].status == 'outofdate') {
+          dependencies_html += '<td style="padding-right:8px;font-weight: bold;color:#ff0000">' + dependencies[i].status + '</td> '
+        } else {
+          dependencies_html += '<td style="padding-right:8px;font-weight: 200;color:#626262">' + dependencies[i].status + '</td> '
+        }
+        if (dependencies[i].status == 'outofdate') {
+          dependencies_html += '<td style="padding-right:8px;"> upgrade to ' + dependencies[i].latest + '</td> '
+        }
+        dependencies_html += '</tr>'
       }
-      dependencies_html += '</dl>'
+      dependencies_html += '</table>'
     } else {
       dependencies_html = 'No dependencies'
     }
@@ -87,11 +97,19 @@ function queryData() {
       converter.setOption('headerLevelStart', '5');
       securityHTML += converter.makeHtml(respObject.snyk.readme)
     } else {
-      securityHTML += "Snyk has no security for " + respObject.npms.collected.metadata.name
+      securityHTML += "Snyk has no security information for " + respObject.npms.collected.metadata.name
     }
     securityHTML += '<h4>NodeSecurity:</h4>'
-    securityHTML += '<h4>' + respObject.daviddm.status + '</h4>'
-    securityHTML += 'More info at: <a href = "https://nodesecurity.io/check/' + respObject.main.name + '">' + 'nodesecurity.io/check/' + respObject.main.name + ' </a > '
+
+    var labelClass;
+    if (respObject.daviddm.status == 'insecure') {
+      labelClass = 'label-danger'
+    } else {
+      labelClass = 'label-default'
+    }
+
+    securityHTML += '<h3> <span class="label ' + labelClass + '">' + respObject.daviddm.status + '</span> </h3>'
+    securityHTML += '<p> more info at: <a href = "https://nodesecurity.io/check/' + respObject.main.name + '">' + 'nodesecurity.io/check/' + respObject.main.name + ' </a > </p> '
 
     document.getElementById('security-content').innerHTML = securityHTML
 
