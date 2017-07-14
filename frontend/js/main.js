@@ -81,15 +81,15 @@ function queryData() {
     document.getElementById('overview-content-dependencies').innerHTML = dependencies_html
 
     // security
-    var securityHTML = '<h3>Security information by Snyk</h3>'
+    var securityHTML = '<h4>Snyk:</h4>'
     if (respObject.snyk) {
       var converter = new showdown.Converter()
-      converter.setOption('headerLevelStart', '3');
+      converter.setOption('headerLevelStart', '5');
       securityHTML += converter.makeHtml(respObject.snyk.readme)
     } else {
       securityHTML += "Snyk has no security for " + respObject.npms.collected.metadata.name
     }
-    securityHTML += '<h3>Security information by NodeSecurity</h3>'
+    securityHTML += '<h4>NodeSecurity:</h4>'
     securityHTML += '<h4>' + respObject.daviddm.status + '</h4>'
     securityHTML += 'More info at: <a href = "https://nodesecurity.io/check/' + respObject.main.name + '">' + 'nodesecurity.io/check/' + respObject.main.name + ' </a > '
 

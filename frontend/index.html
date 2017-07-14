@@ -75,18 +75,14 @@
 
       <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#overview">Overview</a></li>
-        <li><a data-toggle="tab" href="#security">Security</a></li>
-        <li><a data-toggle="tab" href="#quality">Quality</a></li>
-        <li><a data-toggle="tab" href="#compliance">Compliance</a></li>
-        <li><a data-toggle="tab" href="#maintainabilty">Maintainability</a></li>
         <li><a data-toggle="tab" href="#debug">Debug</a></li>
       </ul>
 
       <div class="tab-content">
         <div id="overview" class="tab-pane fade in active">
-          <h3>Overview</h3>
           <div class="no-data">Please fetch data first.</div>
           <div class="data-available">
+            <h3>Overview</h3>
             <dl class="dl-horizontal">
               <dt>Name:</dt>
               <dd id="overview-content-name"></dd>
@@ -103,52 +99,45 @@
               <dt>License:</dt>
               <dd id="overview-content-license"></dd>
             </dl>
-            
+
+            <div id="security">
+              <h3>Vulnerability</h3>
+              <p class="no-data">Please fetch data first.</p>
+              <div class="data-available" id="security-content"></div>
+            </div>
+
             <h3>Dependencies</h3>
             <div id="overview-content-dependencies">
             </div>
 
-          </div>
-
-        </div>
-
-        <div id="security" class="tab-pane fade in">
-          <p class="no-data">Please fetch data first.</p>
-          <div class="data-available" id="security-content"></div>
-        </div>
-
-        <div id="quality" class="tab-pane fade in">
-          <h3>Quality</h3>
-          <p class="no-data">Please fetch data first.</p>
-          <div class="data-available panel panel-default col-md-5">
-            <div class="panel-heading">Quality assesment by npms</div>
-            <div class="panel-body">
-              <dl class="dl-horizontal">
-                <dt>carefulness:</dt>
-                <dd id="quality-content-carefulness"></dd>
-                <dt>tests:</dt>
-                <dd id="quality-content-tests"></dd>
-                <dt>health:</dt>
-                <dd id="quality-content-health"></dd>
-                <dt>branding:</dt>
-                <dd id="quality-content-branding"></dd>
-              </dl>
-              <canvas id="myChart" width="150" height="150"></canvas>
+            <div id="quality">
+              <h3>Quality</h3>
+              <p class="no-data">Please fetch data first.</p>
+              <div class="data-available panel panel-default col-md-5">
+                <div class="panel-heading">Quality assesment by npms</div>
+                <div class="panel-body">
+                  <dl class="dl-horizontal">
+                    <dt>carefulness:</dt>
+                    <dd id="quality-content-carefulness"></dd>
+                    <dt>tests:</dt>
+                    <dd id="quality-content-tests"></dd>
+                    <dt>health:</dt>
+                    <dd id="quality-content-health"></dd>
+                    <dt>branding:</dt>
+                    <dd id="quality-content-branding"></dd>
+                  </dl>
+                  <canvas id="myChart" width="150" height="150"></canvas>
+                </div>
+              </div>
             </div>
+
           </div>
+
         </div>
 
-        <div id="compliance" class="tab-pane fade in">
-          <h3>Compliance</h3>
-          <p class="no-data">Please fetch data first.</p>
-          <p class="data-available">Awesome compliance data.</p>
-        </div>
 
-        <div id="maintainabilty" class="tab-pane fade in">
-          <h3>Maintainability</h3>
-          <p class="no-data">Please fetch data first.</p>
-          <p class="data-available">Awesome Maintainability data.</p>
-        </div>
+
+
 
         <div id="debug" class="tab-pane fade">
           <h3>Debug</h3>
