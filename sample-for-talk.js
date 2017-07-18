@@ -13,13 +13,10 @@ exports.handle = function (e, ctx, mainCb) {
 
       const response = {
         statusCode: 404,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' },
         body: JSON.stringify({ 'err': s3Err })
       }
-      mainCb(null, response)
+      mainCb(s3Err, response)
       return
     }
 
@@ -27,10 +24,7 @@ exports.handle = function (e, ctx, mainCb) {
     console.log('Data from s3.getObject: ' + body)
     const response = {
       statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' },
       body: JSON.stringify({ data: data })
     }
     mainCb(null, response)
