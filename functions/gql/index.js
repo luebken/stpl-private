@@ -15,8 +15,6 @@ module.exports.handle = (event, context, cb) => {
     userInfo = event.requestContext.authorizer.claims
   }
 
-  TODO test POST: https://0m4mv2f1y8.execute-api.us-east-1.amazonaws.com/dev
-
   console.log(`Event from user ${userInfo.name} with ID ${userInfo.sub}`)
 
   const request = JSON.parse(event.body)
