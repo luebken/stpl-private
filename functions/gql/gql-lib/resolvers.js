@@ -11,11 +11,12 @@ module.exports.resolveMain = (context, args) => {
   return s3.getObject(params).promise().then(npmsData => {
     var npmsDataBody = JSON.parse(npmsData.Body.toString('utf-8'))
     var coreResult = {
+      'source': ['npms'],
       'name': npmsDataBody.collected.metadata.name,
       'ecosystem': 'npm',
       'repository': npmsDataBody.collected.metadata.links.repository
     }
-    console.log('resolveMain: ', coreResult)
+    console.log(JSON.stringify(coreResult))
     return coreResult
   }).catch(err => {
     console.error('Err in resolveMain:', err)
@@ -36,6 +37,7 @@ module.exports.resolveLibrariesio = (context, args) => {
     var librariosioDataBody = JSON.parse(librariosioData.Body.toString('utf-8'))
 
     var result = {
+      source: 'librariosio',
       name: librariosioDataBody.name,
       platform: librariosioDataBody.platform,
       description: librariosioDataBody.description,
@@ -47,7 +49,7 @@ module.exports.resolveLibrariesio = (context, args) => {
       latest_release_number: librariosioDataBody.latest_release_number,
       keywords: librariosioDataBody.keywords
     }
-    console.log('result from resolveLibrariesio: ', result)
+    console.log(JSON.stringify(result))
     return result
   }).catch(err => {
     console.error('Err in resolveLibrariesio:', err)
@@ -68,12 +70,13 @@ module.exports.resolveVersioneye = (context, args) => {
     var versioneyeDataBody = JSON.parse(versioneyeData.Body.toString('utf-8'))
 
     var result = {
+      source: 'versioneye',
       name: versioneyeDataBody.name,
       language: versioneyeDataBody.language,
       description: versioneyeDataBody.description,
       version: versioneyeDataBody.version
     }
-    console.log('result from resolveVersionEye: ', result)
+    console.log(JSON.stringify(result))
     return result
   }).catch(err => {
     console.error('Err in resolveVersioneye:', err)
@@ -98,6 +101,7 @@ module.exports.resolveNpms = (context, args) => {
     }
 
     var result = {
+      source: 'npms',
       collected: {
         metadata: {
           name: npmsDataBody.collected.metadata.name,
@@ -121,7 +125,7 @@ module.exports.resolveNpms = (context, args) => {
         }
       }
     }
-    console.log('result from npms: ', result)
+    console.log(JSON.stringify(result))
     return result
   }).catch(err => {
     console.error('Err in resolveNpms:', err)
@@ -142,9 +146,10 @@ module.exports.resolveSnyk = (context, args) => {
     var snykDataBody = JSON.parse(snykData.Body.toString('utf-8'))
 
     var result = {
+      source: 'snyk',
       readme: snykDataBody.readme
     }
-    console.log('result from snyk: ', result)
+    console.log(JSON.stringify(result))
     return result
   }).catch(err => {
     console.error('Err in resolveSnyk:', err)
@@ -166,10 +171,11 @@ module.exports.resolveDaviddm = (context, args) => {
     var daviddmBody = JSON.parse(daviddmData.Body.toString('utf-8'))
 
     var result = {
+      source: 'daviddm',
       status: daviddmBody.status,
       deps: daviddmBody.deps
     }
-    console.log('result from daviddm: ', result)
+    console.log(JSON.stringify(result))
     return result
   })
 }
