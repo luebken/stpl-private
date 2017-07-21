@@ -28,9 +28,9 @@ function queryData() {
     var stackRequestRegEx = /.*\/stack\/(.*)\/(.*)\/(.*)/
     var stackRequest = stackRequestRegEx.exec(window.location.hash)
     if (stackRequest) {
-      provider = componentRequest[1]
-      repo = componentRequest[2]
-      project = componentRequest[2]
+      provider = stackRequest[1]
+      repo = stackRequest[2]
+      project = stackRequest[3]
       console.log('Not supported')
       console.log('Would look at https://raw.githubusercontent.com/' + repo + '/' + project + '/master/package.json')
     }
