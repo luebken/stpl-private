@@ -1,8 +1,13 @@
 const AWS = require('aws-sdk')
 const s3 = new AWS.S3()
 
+const log = require('../lib/utils-log')
+const ConsoleSLog = log.ConsoleSLog
+const ConsoleSError = log.ConsoleSError
+
 module.exports.resolveMain = (context, args) => {
-  console.log('resolveMain. Context: ', context, 'Args: ', args)
+  ConsoleSLog('resolveMain context: ', context)
+  ConsoleSLog('resolveMain args: ', args)
   var params = {
     Bucket: 'stpl-data',
     Key: 'npms/npm/' + args.name
@@ -10,23 +15,22 @@ module.exports.resolveMain = (context, args) => {
   // main currently relies on npms
   return s3.getObject(params).promise().then(npmsData => {
     var npmsDataBody = JSON.parse(npmsData.Body.toString('utf-8'))
-    var coreResult = {
-      'source': ['npms'],
-      'name': npmsDataBody.collected.metadata.name,
-      'ecosystem': 'npm',
-      'repository': npmsDataBody.collected.metadata.links.repository
+    var result = {
+      source: ['npms'],
+      name: npmsDataBody.collected.metadata.name,
+      ecosystem: 'npm',
+      repository: npmsDataBody.collected.metadata.links.repository
     }
-    console.log(JSON.stringify(coreResult))
-    return coreResult
+    ConsoleSLog('resolveMain result:', result)
+    return result
   }).catch(err => {
-    console.error('Err in resolveMain:', err)
+    ConsoleSError('Err in resolveMain:', err)
   })
 }
 
 module.exports.resolveLibrariesio = (context, args) => {
-  console.log('resolveLibrariesio. Context: ', context, 'Args: ', args)
-
-  const s3 = new AWS.S3()
+  ConsoleSLog('resolveLibrariesio context: ', context)
+  ConsoleSLog('resolveLibrariesio args: ', args)
   const pkg = args.name
   const ecosystem = 'npm'
   var params = {
@@ -49,17 +53,16 @@ module.exports.resolveLibrariesio = (context, args) => {
       latest_release_number: librariosioDataBody.latest_release_number,
       keywords: librariosioDataBody.keywords
     }
-    console.log(JSON.stringify(result))
+    ConsoleSLog('resolveLibrariesio result:', result)
     return result
   }).catch(err => {
-    console.error('Err in resolveLibrariesio:', err)
+    ConsoleSError('Err in resolveLibrariesio:', err)
   })
 }
 
 module.exports.resolveVersioneye = (context, args) => {
-  console.log('resolveVersioneye. Context: ', context, 'Args: ', args)
-
-  const s3 = new AWS.S3()
+  ConsoleSLog('resolveVersioneye context: ', context)
+  ConsoleSLog('resolveVersioneye args: ', args)
   const pkg = args.name
   const ecosystem = 'npm'
   var params = {
@@ -76,17 +79,17 @@ module.exports.resolveVersioneye = (context, args) => {
       description: versioneyeDataBody.description,
       version: versioneyeDataBody.version
     }
-    console.log(JSON.stringify(result))
+    ConsoleSLog('resolveVersioneye result:', result)
     return result
   }).catch(err => {
-    console.error('Err in resolveVersioneye:', err)
+    ConsoleSError('Err in resolveVersioneye:', err)
   })
 }
 
 module.exports.resolveNpms = (context, args) => {
-  console.log('resolveNpms. Context: ', context, 'Args: ', args)
+  ConsoleSLog('resolveNpms context: ', context)
+  ConsoleSLog('resolveNpms args: ', args)
 
-  const s3 = new AWS.S3()
   const pkg = args.name
   var params = {
     Bucket: 'stpl-data',
@@ -125,17 +128,15 @@ module.exports.resolveNpms = (context, args) => {
         }
       }
     }
-    console.log(JSON.stringify(result))
+    ConsoleSLog('resolveNpms result:', result)
     return result
   }).catch(err => {
-    console.error('Err in resolveNpms:', err)
+    ConsoleSError('Err in resolveNpms:', err)
   })
 }
 
 module.exports.resolveSnyk = (context, args) => {
-  console.log('resolveSnyk. Context: ', context, 'Args: ', args)
-
-  const s3 = new AWS.S3()
+  ConsoleSLog('resolveVersioneye context: ', context)('resolveVersioneye args: ', args)
   const pkg = args.name
   const ecosystem = 'npm'
   var params = {
@@ -149,17 +150,16 @@ module.exports.resolveSnyk = (context, args) => {
       source: 'snyk',
       readme: snykDataBody.readme
     }
-    console.log(JSON.stringify(result))
+    ConsoleSLog('resolveSnyk result:', result)
     return result
   }).catch(err => {
-    console.error('Err in resolveSnyk:', err)
+    ConsoleSError('Err in resolveSnyk:', err)
   })
 }
 
 module.exports.resolveDaviddm = (context, args) => {
-  console.log('resolveDaviddm. Context: ', context, 'Args: ', args)
+  ConsoleSLog('resolveDaviddm context: ', context)('resolveDaviddm args: ', args)
 
-  const s3 = new AWS.S3()
   const pkg = args.name
   const ecosystem = 'npm'
 
@@ -175,7 +175,9 @@ module.exports.resolveDaviddm = (context, args) => {
       status: daviddmBody.status,
       deps: daviddmBody.deps
     }
-    console.log(JSON.stringify(result))
+    ConsoleSLog('resolveDaviddm result:', result)
     return result
+  }).catch(err => {
+    ConsoleSError('Err in resolveDaviddm:', err)
   })
 }
