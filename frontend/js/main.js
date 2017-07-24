@@ -5,9 +5,9 @@ function main() {
   hookEventListeners()
 
   // start with express if nothing valid is present
-  if (!/.*\/component\/(.*)\/(.*)/.exec(window.location.hash)) {
-    history.pushState({}, null, '#!/component/npm/express')
-  }
+  //if (!/.*\/component\/(.*)\/(.*)/.exec(window.location.hash)) {
+  //  history.pushState({}, null, '#!/component/npm/express')
+  //}
   queryData()
 }
 
@@ -35,9 +35,8 @@ function queryData() {
       console.log('Would look at https://raw.githubusercontent.com/' + repo + '/' + project + '/master/package.json')
     }
 
-    window.alert("Sorry I don't know what to get.\nLets start with something I know. ;-)");
-    history.pushState({}, null, '#!/component/npm/express')
-    queryData()
+    window.alert("Sorry I don't know what to get.");
+    history.pushState({}, null, '#!')
     return
   }
   const variables = { 'name': name, 'ecosystem': ecosystem }
