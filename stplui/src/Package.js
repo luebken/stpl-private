@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Accordion, Icon } from 'semantic-ui-react'
+import { Input, Accordion, Icon, Segment, Image } from 'semantic-ui-react'
 import { GqlQuery } from './gql'
 
 class Package extends Component {
@@ -26,32 +26,40 @@ componentWillUpdate() {
         <InputSearch name={this.state.name} submitHandler={this.handleInputSubmit.bind(this)} />
         <br />
         <br />
-        <div style={{ 'display': this.state.name ? 'block' : 'none' }}>
-          <p>Ecosystem: {this.state.ecosystem}</p>
-          <p>Package: {this.state.name}</p>
-          <p>Description: {this.state.description}</p>
-        </div>
-        <br />
-        <br />
-        <div style={{ 'display': this.state.name ? 'block' : 'none' }}>
-          <p>More:</p>
-          <ul>
-            <li><a href={'https://npms.io/search?q=' + this.state.name}>https://npms.io/search?q={this.state.name}</a></li>
-            <li><a href={'https://api.npms.io/v2/package/' + this.state.name}>https://api.npms.io/v2/package/{this.state.name}</a></li>
-            <li><a href={'https://snyk.io/vuln/npm:' + this.state.name}>https://snyk.io/vuln/npm:{this.state.name}</a></li>
-            <li><a href={'https://libraries.io/npm/' + this.state.name}>https://libraries.io/npm/{this.state.name}</a></li>
-            <li><a href={'https://www.versioneye.com/nodejs/' + this.state.name}>https://www.versioneye.com/nodejs/{this.state.name}</a></li>
-            {/* TODO DavidDM */}
-          </ul>
-        </div>
 
-        <Accordion style={{ 'display': this.state.name ? 'block' : 'none' }}>
-          <Accordion.Title>  <Icon name='dropdown' /> Debug </Accordion.Title>
-          <Accordion.Content>
-            <div><pre>{JSON.stringify(this.state.fullresult, null, 2)}</pre></div>
-          </Accordion.Content>
-        </Accordion>
-      </div>
+        <Segment.Group style={{ 'display': this.state.name ? 'block' : 'none' }} >
+          <Segment style={{ 'display': this.state.name ? 'block' : 'none' }} loading={this.state.loading}>
+            <Image style={{ 'display': this.state.loading ? 'block' : 'none' }} src='paragraph.png' />
+            <div style={{ 'display': this.state.name ? 'block' : 'none' }}>
+              <p>Ecosystem: {this.state.ecosystem}</p>
+              <p>Package: {this.state.name}</p>
+              <p>Description: {this.state.description}</p>
+            </div>
+          </Segment>
+
+          <Segment style={{ 'display': this.state.name ? 'block' : 'none' }}>
+            <p>More:</p>
+            <ul>
+              <li><a href={'https://npms.io/search?q=' + this.state.name}>https://npms.io/search?q={this.state.name}</a></li>
+              <li><a href={'https://api.npms.io/v2/package/' + this.state.name}>https://api.npms.io/v2/package/{this.state.name}</a></li>
+              <li><a href={'https://snyk.io/vuln/npm:' + this.state.name}>https://snyk.io/vuln/npm:{this.state.name}</a></li>
+              <li><a href={'https://libraries.io/npm/' + this.state.name}>https://libraries.io/npm/{this.state.name}</a></li>
+              <li><a href={'https://www.versioneye.com/nodejs/' + this.state.name}>https://www.versioneye.com/nodejs/{this.state.name}</a></li>
+              {/* TODO DavidDM */}
+            </ul>
+          </Segment>
+          <Segment>
+            <Accordion style={{ 'display': this.state.name ? 'block' : 'none' }}>
+              <Accordion.Title>  <Icon name='dropdown' /> Debug </Accordion.Title>
+              <Accordion.Content>
+                <div><pre>{JSON.stringify(this.state.fullresult, null, 2)}</pre></div>
+              </Accordion.Content>
+            </Accordion>
+          </Segment>
+        </Segment.Group >
+
+
+      </div >
     );
   }
 
@@ -82,22 +90,28 @@ componentWillUpdate() {
   }
 
   getDataFromServer() {
-    var that = this
-    const variables = { 'name': this.state.name, 'ecosystem': this.state.ecosystem }
-    GqlQuery(variables, true).then(respObject => {
-      console.log("GqlQuery called. respObject: ", respObject)
-      if (respObject) {
-        that.setState({
-          description: respObject.npms.collected.metadata.description,
-          fullresult: respObject
-        });
-      } else {
-        console.log("err. respObject null.")
-        that.setState({ description: 'dummy desc' });
-      }
-    }).catch(err => {
-      console.log(err)
-    })
+    if (this.state.name) {
+      var that = this
+      that.setState({
+        loading: true
+      });
+      const variables = { 'name': this.state.name, 'ecosystem': this.state.ecosystem }
+      GqlQuery(variables, true).then(respObject => {
+        console.log("GqlQuery called. respObject: ", respObject)
+        if (respObject) {
+          that.setState({
+            description: respObject.npms.collected.metadata.description,
+            fullresult: respObject,
+            loading: false
+          });
+        } else {
+          console.log("err. respObject null.")
+          that.setState({ description: 'dummy desc' });
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    }
   }
 
 
