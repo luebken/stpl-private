@@ -6,29 +6,25 @@ class Package extends Component {
 
   constructor() {
     super()
-    console.log('Package constructor called. State: ', this.state)
-    console.log('Package constructor called. Location: ', window.location.pathname)
-    var componentRequest = /package\/(.*)\/(.*)/.exec(window.location.pathname)
-    if (componentRequest) {
-      this.state = {
-        ecosystem: componentRequest[1],
-        name: componentRequest[2],
-      };
-    } else {
-      this.state = {
-        ecosystem: '',
-        name: '',
-      };
-    }
+    console.log('Package.constructor()')
+    this.setStateFromWindowLocationHash()
+    this.getDataFromServer()
   }
 
+  /*
+componentWillUpdate() {
+  console.log('Package.componentWillUpdate()')
+  this.setStateFromWindowLocationHash()
+}
+*/
+
   render() {
-    console.log('Package render called. State: ', this.state)
+    console.log('Package.render() State: ', this.state)
     return (
       <div>
         <h2>Package</h2>
 
-        <span>Hey I'm looking for information for package: </span>  <InputSearch name={this.state.name} />
+        <span>Hey I'm looking for information for package: </span>  <InputSearch name={this.state.name} submitHandler={this.handleInputSubmit.bind(this)} />
 
         <p>Ecosystem: {this.state.ecosystem}</p>
         <p>Package: {this.state.name}</p>
@@ -38,20 +34,51 @@ class Package extends Component {
   }
 
   componentDidMount() {
-    var that = this
+    console.log('Package.componentDidMount()')
+  }
 
+  setStateFromWindowLocationHash() {
+    var regEx = /#\/package\/(.*)\/(.*)/.exec(window.location.hash)
+    if (regEx) {
+      this.state = {
+        ecosystem: regEx[1],
+        name: regEx[2],
+      };
+    } else {
+      this.state = {
+        ecosystem: '',
+        name: '',
+      };
+    }
+  }
+
+  handleInputSubmit(value) {
+    console.log('Package.handleSubmit()')
+    window.location.hash = '/package/npm/' + value
+    this.setStateFromWindowLocationHash()
+    this.getDataFromServer()
+  }
+
+  getDataFromServer() {
+    var that = this
     const variables = { 'name': this.state.name, 'ecosystem': this.state.ecosystem }
     GqlQuery(variables, true).then(respObject => {
-      console.log("GqlQuery called ", respObject)
-      that.setState({ description: respObject.npms.collected.metadata.description });
+      console.log("GqlQuery called. respObject: ", respObject)
+      if (respObject) {
+        that.setState({ description: respObject.npms.collected.metadata.description });
+      } else {
+        console.log("err. respObject null.")
+        that.setState({ description: 'dummy desc' });
+      }
     }).catch(err => {
       console.log(err)
     })
   }
 
+
 }
 
-// A simple search box. Changes window.location on change
+// A simple search box.
 class InputSearch extends Component {
   constructor(props) {
     super(props);
@@ -63,12 +90,12 @@ class InputSearch extends Component {
 
   handleChange(event) {
     this.setState({ value: event.target.value });
-    console.log(event)
   }
 
   handleSubmit(event) {
+    console.log('InputSearch.handleSubmit()')
     event.preventDefault();
-    window.location = '/package/npm/' + this.state.value //TODO hackisch
+    this.props.submitHandler(this.state.value)
   }
 
   render() {
