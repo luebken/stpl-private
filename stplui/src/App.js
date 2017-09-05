@@ -11,6 +11,7 @@ import Home from './Home';
 import Package from './Package';
 import Application from './Application';
 import Login from './LoginLayout';
+import About from './About';
 import * as cognito from './cognito-utils';
 
 
@@ -45,7 +46,16 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route path="/package" component={Package} />
           <Route path="/app" component={Application} />
+          <Route exact path="/about" component={About} />
         </div>
+
+        <Menu>
+          <Menu.Menu position='right'>
+            <Menu.Item name='about' as={NavLink} to='/about'>
+              About
+            </Menu.Item>
+          </Menu.Menu>
+        </Menu>
       </div>
     </Router>
 
