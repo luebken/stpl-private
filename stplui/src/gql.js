@@ -21,7 +21,7 @@ export function GqlQuery(variables, authenticated) {
     if (response.status === 200) { return response.json() }
 
     console.log(response)
-    throw `Bad status code ${response.status} `
+    throw new Error(`Bad status code ${response.status}` )
   }).catch(err => {
     console.log('Sad days: ' + err)
     return
