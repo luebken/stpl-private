@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Accordion, Icon, Segment, Image, Label, Menu, Button } from 'semantic-ui-react'
+import { Input, Accordion, Icon, Segment, Image, Label, Menu, Button, Table, Link } from 'semantic-ui-react'
 import { GqlQuery } from './gql'
 
 class Package extends Component {
@@ -20,12 +20,26 @@ componentWillUpdate() {
 
   render() {
     console.log('Package.render() State: ', this.state)
+
     var keywords = '';
     if (this.state.fullresult) {
       keywords = this.state.fullresult.npms.collected.metadata.keywords.map((keyword) =>
         <Label horizontal key={keyword}>{keyword}</Label>
       );
     }
+
+    var dependencies = '';
+    if (this.state.fullresult) {
+      dependencies = this.state.fullresult.npms.collected.metadata.dependencies.map((depdendency) =>
+        <Table.Row>
+          <Table.Cell collapsing><a target="_blank" href={ '/#/package/npm/' + depdendency.name}> {depdendency.name} </a> </Table.Cell>
+          <Table.Cell>{depdendency.version}</Table.Cell>
+        </Table.Row>
+      );
+    }
+
+
+
     return (
       <div>
         <h2 style={{ 'display': 'inline-block', 'marginRight': '10px' }}>Package</h2>
@@ -49,29 +63,40 @@ componentWillUpdate() {
                 <Icon name='home' size='big' />
               </a>
             </Segment>
-        </Segment.Group >
-        <Segment>Keywords: {keywords}</Segment>
+          </Segment.Group >
+          <Segment>Keywords: {keywords}</Segment>
+          <Segment>
+            <Table celled striped>
+              <Table.Body>
+                <Table.Row>
+                  <Table.Cell colSpan='2'>Dependencies: {this.state.fullresult ? this.state.fullresult.npms.collected.metadata.dependencies.length : ''}</Table.Cell>
+                </Table.Row>
+                {dependencies}
+              </Table.Body>
+
+            </Table>
+          </Segment>
 
 
-        <Segment>
-          <p>More:</p>
-          <ul>
-            <li><a href={'https://npms.io/search?q=' + this.state.name}>https://npms.io/search?q={this.state.name}</a></li>
-            <li><a href={'https://api.npms.io/v2/package/' + this.state.name}>https://api.npms.io/v2/package/{this.state.name}</a></li>
-            <li><a href={'https://snyk.io/vuln/npm:' + this.state.name}>https://snyk.io/vuln/npm:{this.state.name}</a></li>
-            <li><a href={'https://libraries.io/npm/' + this.state.name}>https://libraries.io/npm/{this.state.name}</a></li>
-            <li><a href={'https://www.versioneye.com/nodejs/' + this.state.name}>https://www.versioneye.com/nodejs/{this.state.name}</a></li>
-            {/* TODO DavidDM */}
-          </ul>
-        </Segment>
-        <Segment>
-          <Accordion style={{ 'display': this.state.name ? 'block' : 'none' }}>
-            <Accordion.Title>  <Icon name='dropdown' /> Debug </Accordion.Title>
-            <Accordion.Content>
-              <div><pre>{JSON.stringify(this.state.fullresult, null, 2)}</pre></div>
-            </Accordion.Content>
-          </Accordion>
-        </Segment>
+          <Segment>
+            <p>More:</p>
+            <ul>
+              <li><a href={'https://npms.io/search?q=' + this.state.name}>https://npms.io/search?q={this.state.name}</a></li>
+              <li><a href={'https://api.npms.io/v2/package/' + this.state.name}>https://api.npms.io/v2/package/{this.state.name}</a></li>
+              <li><a href={'https://snyk.io/vuln/npm:' + this.state.name}>https://snyk.io/vuln/npm:{this.state.name}</a></li>
+              <li><a href={'https://libraries.io/npm/' + this.state.name}>https://libraries.io/npm/{this.state.name}</a></li>
+              <li><a href={'https://www.versioneye.com/nodejs/' + this.state.name}>https://www.versioneye.com/nodejs/{this.state.name}</a></li>
+              {/* TODO DavidDM */}
+            </ul>
+          </Segment>
+          <Segment>
+            <Accordion style={{ 'display': this.state.name ? 'block' : 'none' }}>
+              <Accordion.Title>  <Icon name='dropdown' /> Debug </Accordion.Title>
+              <Accordion.Content>
+                <div><pre>{JSON.stringify(this.state.fullresult, null, 2)}</pre></div>
+              </Accordion.Content>
+            </Accordion>
+          </Segment>
         </Segment.Group >
 
 
