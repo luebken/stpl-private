@@ -22,10 +22,10 @@ componentWillUpdate() {
     console.log('Package.render() State: ', this.state)
     return (
       <div>
-        <h2>Package</h2>
-
-        <span>Hey I'm looking for information for package: </span>  <InputSearch name={this.state.name} submitHandler={this.handleInputSubmit.bind(this)} />
-
+        <h2 style={{ 'display': 'inline-block', 'marginRight': '10px' }}>Package</h2> 
+        <InputSearch name={this.state.name} submitHandler={this.handleInputSubmit.bind(this)} />
+        <br />
+        <br />
         <p>Ecosystem: {this.state.ecosystem}</p>
         <p>Package: {this.state.name}</p>
         <p>Description: {this.state.description}</p>
@@ -101,8 +101,7 @@ class InputSearch extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit} style={{ 'display': 'inline-block' }}>
-        <Input value={this.state.value} onChange={this.handleChange} onSubmit={this.handleSubmit} placeholder='NPM package name' />
-        <Input type="submit" value="Search" />
+        <Input value={this.state.value} onChange={this.handleChange} onSubmit={this.handleSubmit} placeholder='NPM package name' icon="search" />
       </form>
     )
   }
