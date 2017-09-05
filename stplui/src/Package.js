@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Accordion, Icon, Segment, Image, Label } from 'semantic-ui-react'
+import { Input, Accordion, Icon, Segment, Image, Label, Menu, Button } from 'semantic-ui-react'
 import { GqlQuery } from './gql'
 
 class Package extends Component {
@@ -41,37 +41,42 @@ componentWillUpdate() {
           <Segment.Group horizontal >
             <Segment>Description: {this.state.fullresult ? this.state.fullresult.npms.collected.metadata.description : ''}</Segment>
             <Segment>Latest version: {this.state.fullresult ? this.state.fullresult.npms.collected.metadata.version : ''}</Segment>
-          </Segment.Group >
-          <Segment>Keywords: {keywords}</Segment>
+            <Segment style={{ 'padding': '10px' }}>
+              <a href={this.state.fullresult ? this.state.fullresult.npms.collected.metadata.links.repository : ''}>
+                <Icon name='github' size='big' />
+              </a>
+              <a href={this.state.fullresult ? this.state.fullresult.npms.collected.metadata.links.homepage : ''}>
+                <Icon name='home' size='big' />
+              </a>
+            </Segment>
+        </Segment.Group >
+        <Segment>Keywords: {keywords}</Segment>
 
-          <Segment>
-            <p>More:</p>
-            <ul>
-              <li><a href={'https://npms.io/search?q=' + this.state.name}>https://npms.io/search?q={this.state.name}</a></li>
-              <li><a href={'https://api.npms.io/v2/package/' + this.state.name}>https://api.npms.io/v2/package/{this.state.name}</a></li>
-              <li><a href={'https://snyk.io/vuln/npm:' + this.state.name}>https://snyk.io/vuln/npm:{this.state.name}</a></li>
-              <li><a href={'https://libraries.io/npm/' + this.state.name}>https://libraries.io/npm/{this.state.name}</a></li>
-              <li><a href={'https://www.versioneye.com/nodejs/' + this.state.name}>https://www.versioneye.com/nodejs/{this.state.name}</a></li>
-              {/* TODO DavidDM */}
-            </ul>
-          </Segment>
-          <Segment>
-            <Accordion style={{ 'display': this.state.name ? 'block' : 'none' }}>
-              <Accordion.Title>  <Icon name='dropdown' /> Debug </Accordion.Title>
-              <Accordion.Content>
-                <div><pre>{JSON.stringify(this.state.fullresult, null, 2)}</pre></div>
-              </Accordion.Content>
-            </Accordion>
-          </Segment>
+
+        <Segment>
+          <p>More:</p>
+          <ul>
+            <li><a href={'https://npms.io/search?q=' + this.state.name}>https://npms.io/search?q={this.state.name}</a></li>
+            <li><a href={'https://api.npms.io/v2/package/' + this.state.name}>https://api.npms.io/v2/package/{this.state.name}</a></li>
+            <li><a href={'https://snyk.io/vuln/npm:' + this.state.name}>https://snyk.io/vuln/npm:{this.state.name}</a></li>
+            <li><a href={'https://libraries.io/npm/' + this.state.name}>https://libraries.io/npm/{this.state.name}</a></li>
+            <li><a href={'https://www.versioneye.com/nodejs/' + this.state.name}>https://www.versioneye.com/nodejs/{this.state.name}</a></li>
+            {/* TODO DavidDM */}
+          </ul>
+        </Segment>
+        <Segment>
+          <Accordion style={{ 'display': this.state.name ? 'block' : 'none' }}>
+            <Accordion.Title>  <Icon name='dropdown' /> Debug </Accordion.Title>
+            <Accordion.Content>
+              <div><pre>{JSON.stringify(this.state.fullresult, null, 2)}</pre></div>
+            </Accordion.Content>
+          </Accordion>
+        </Segment>
         </Segment.Group >
 
 
       </div >
     );
-  }
-
-  componentDidMount() {
-    console.log('Package.componentDidMount()')
   }
 
   setStateFromWindowLocationHash() {
