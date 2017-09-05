@@ -26,13 +26,14 @@ componentWillUpdate() {
         <InputSearch name={this.state.name} submitHandler={this.handleInputSubmit.bind(this)} />
         <br />
         <br />
-        <p>Ecosystem: {this.state.ecosystem}</p>
-        <p>Package: {this.state.name}</p>
-        <p>Description: {this.state.description}</p>
-
+        <div style={{ 'display': this.state.name ? 'block' : 'none' }}>
+          <p>Ecosystem: {this.state.ecosystem}</p>
+          <p>Package: {this.state.name}</p>
+          <p>Description: {this.state.description}</p>
+        </div>
         <br />
         <br />
-        <div style={{ 'display': this.state.name ? 'block': 'none' }}>
+        <div style={{ 'display': this.state.name ? 'block' : 'none' }}>
           <p>More:</p>
           <ul>
             <li><a href={'https://npms.io/search?q=' + this.state.name}>https://npms.io/search?q={this.state.name}</a></li>
@@ -115,7 +116,7 @@ class InputSearch extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit} style={{ 'display': 'inline-block' }}>
-        <Input value={this.state.value} onChange={this.handleChange} onSubmit={this.handleSubmit} placeholder='NPM package name' icon="search" />
+        <Input autoFocus value={this.state.value} onChange={this.handleChange} onSubmit={this.handleSubmit} placeholder='NPM package name' icon="search" />
       </form>
     )
   }
