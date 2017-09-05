@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Accordion, Icon, Segment, Image } from 'semantic-ui-react'
+import { Input, Accordion, Icon, Segment, Image, Label } from 'semantic-ui-react'
 import { GqlQuery } from './gql'
 
 class Package extends Component {
@@ -20,6 +20,12 @@ componentWillUpdate() {
 
   render() {
     console.log('Package.render() State: ', this.state)
+    var keywords = '';
+    if (this.state.fullresult) {
+      keywords = this.state.fullresult.npms.collected.metadata.keywords.map((keyword) =>
+        <Label horizontal key={keyword}>{keyword}</Label>
+      );
+    }
     return (
       <div>
         <h2 style={{ 'display': 'inline-block', 'marginRight': '10px' }}>Package</h2>
@@ -30,14 +36,13 @@ componentWillUpdate() {
         <Segment.Group style={{ 'display': this.state.name ? 'block' : 'none' }} >
           <Segment style={{ 'display': this.state.name ? 'block' : 'none' }} loading={this.state.loading}>
             <Image style={{ 'display': this.state.loading ? 'block' : 'none' }} src='paragraph.png' />
-            <div style={{ 'display': this.state.name ? 'block' : 'none' }}>
-              <p>Ecosystem: {this.state.ecosystem}</p>
-              <p>Package: {this.state.name}</p>
+            <div>
               <p>Description: {this.state.description}</p>
+              <div>Keywords: {keywords}</div>
             </div>
           </Segment>
 
-          <Segment style={{ 'display': this.state.name ? 'block' : 'none' }}>
+          <Segment>
             <p>More:</p>
             <ul>
               <li><a href={'https://npms.io/search?q=' + this.state.name}>https://npms.io/search?q={this.state.name}</a></li>
