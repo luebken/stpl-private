@@ -22,13 +22,27 @@ componentWillUpdate() {
     console.log('Package.render() State: ', this.state)
     return (
       <div>
-        <h2 style={{ 'display': 'inline-block', 'marginRight': '10px' }}>Package</h2> 
+        <h2 style={{ 'display': 'inline-block', 'marginRight': '10px' }}>Package</h2>
         <InputSearch name={this.state.name} submitHandler={this.handleInputSubmit.bind(this)} />
         <br />
         <br />
         <p>Ecosystem: {this.state.ecosystem}</p>
         <p>Package: {this.state.name}</p>
         <p>Description: {this.state.description}</p>
+
+        <br />
+        <br />
+        <div style={{ 'display': this.state.name ? 'block': 'none' }}>
+          <p>More:</p>
+          <ul>
+            <li><a href={'https://npms.io/search?q=' + this.state.name}>https://npms.io/search?q={this.state.name}</a></li>
+            <li><a href={'https://api.npms.io/v2/package/' + this.state.name}>https://api.npms.io/v2/package/{this.state.name}</a></li>
+            <li><a href={'https://snyk.io/vuln/npm:' + this.state.name}>https://snyk.io/vuln/npm:{this.state.name}</a></li>
+            <li><a href={'https://libraries.io/npm/' + this.state.name}>https://libraries.io/npm/{this.state.name}</a></li>
+            <li><a href={'https://www.versioneye.com/nodejs/' + this.state.name}>https://www.versioneye.com/nodejs/{this.state.name}</a></li>
+            {/* TODO DavidDM */}
+          </ul>
+        </div>
       </div>
     );
   }
