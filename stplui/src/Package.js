@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Accordion, Icon, Segment, Image, Label, Menu, Button, Table, Link } from 'semantic-ui-react'
+import { Input, Accordion, Icon, Segment, Image, Label, Table } from 'semantic-ui-react'
 import { GqlQuery } from './gql'
 
 class Package extends Component {
