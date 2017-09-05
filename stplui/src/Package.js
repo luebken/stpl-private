@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input } from 'semantic-ui-react'
+import { Input, Accordion, Icon } from 'semantic-ui-react'
 import { GqlQuery } from './gql'
 
 class Package extends Component {
@@ -44,6 +44,13 @@ componentWillUpdate() {
             {/* TODO DavidDM */}
           </ul>
         </div>
+
+        <Accordion style={{ 'display': this.state.name ? 'block' : 'none' }}>
+          <Accordion.Title>  <Icon name='dropdown' /> Debug </Accordion.Title>
+          <Accordion.Content>
+            <div><pre>{JSON.stringify(this.state.fullresult, null, 2)}</pre></div>
+          </Accordion.Content>
+        </Accordion>
       </div>
     );
   }
@@ -80,7 +87,10 @@ componentWillUpdate() {
     GqlQuery(variables, true).then(respObject => {
       console.log("GqlQuery called. respObject: ", respObject)
       if (respObject) {
-        that.setState({ description: respObject.npms.collected.metadata.description });
+        that.setState({
+          description: respObject.npms.collected.metadata.description,
+          fullresult: respObject
+        });
       } else {
         console.log("err. respObject null.")
         that.setState({ description: 'dummy desc' });
