@@ -11,6 +11,7 @@ export default class LoginForm extends Component {
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
   componentWillMount() {
+    this.setState({ message: "" })
     document.body.classList.add('login')
   }
 
@@ -26,8 +27,13 @@ export default class LoginForm extends Component {
   }
 
   handleSubmit(e) {
-    console.log('state', this.state)
-    cognito.SignIn(this.state)
+    var that = this
+    cognito.SignIn(this.state).then(function (result) {
+      console.log('worked', result);
+    }, function (err) {
+      that.setState({ message: "Login failed. Please try again." })
+      //console.log( err); // Error: "It broke"
+    })
   }
 
 
@@ -42,6 +48,7 @@ export default class LoginForm extends Component {
           <Header as='h2' textAlign='center'>
             Log-in
           </Header>
+          <p>{this.state.message}</p>
           <Form size='large' onSubmit={this.handleSubmit}>
             <Segment stacked>
               <Form.Input
