@@ -33,14 +33,16 @@ componentWillUpdate() {
         <br />
         <br />
 
-        <Segment.Group style={{ 'display': this.state.name ? 'block' : 'none' }} >
-          <Segment style={{ 'display': this.state.name ? 'block' : 'none' }} loading={this.state.loading}>
-            <Image style={{ 'display': this.state.loading ? 'block' : 'none' }} src='paragraph.png' />
-            <div>
-              <p>Description: {this.state.description}</p>
-              <div>Keywords: {keywords}</div>
-            </div>
-          </Segment>
+        <Segment style={{ 'display': this.state.loading ? 'block' : 'none' }} loading={this.state.loading}>
+          <Image style={{ 'display': this.state.loading ? 'block' : 'none' }} src='paragraph.png' />
+        </Segment>
+
+        <Segment.Group style={{ 'display': this.state.name && !this.state.loading ? 'block' : 'none' }} >
+          <Segment.Group horizontal >
+            <Segment>Description: {this.state.fullresult ? this.state.fullresult.npms.collected.metadata.description : ''}</Segment>
+            <Segment>Latest version: {this.state.fullresult ? this.state.fullresult.npms.collected.metadata.version : ''}</Segment>
+          </Segment.Group >
+          <Segment>Keywords: {keywords}</Segment>
 
           <Segment>
             <p>More:</p>
@@ -105,7 +107,6 @@ componentWillUpdate() {
         console.log("GqlQuery called. respObject: ", respObject)
         if (respObject) {
           that.setState({
-            description: respObject.npms.collected.metadata.description,
             fullresult: respObject,
             loading: false
           });
