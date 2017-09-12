@@ -5,7 +5,7 @@ const schema = require('./gql-lib/schema')
 const sns = require('./lib/utils-sns')
 const l = require('./lib/utils-log')
 
-function runQuery (query, claims, variables) {
+function runQuery(query, claims, variables) {
   return G.graphql(schema.Schema, query, { claims: claims }, null, variables)
 }
 
@@ -33,17 +33,20 @@ module.exports.handle = (event, context, cb) => {
         body: '' // TBD below
       }
       if (response.errors && response.errors.length > 0) {
+        result.statusCode = 500
+        response.data.status = 500
+        result.body = JSON.stringify(response.errors)
+      } else { // no errors
         // if at least one data is present return
         if (response.data.librariesio != null | response.data.versioneye != null | response.data.npms != null) {
           result.statusCode = 200
+          response.data.status = 200
           result.body = JSON.stringify(response.data)
         } else {
           result.statusCode = 404
-          result.body = JSON.stringify(response.errors)
+          response.data.status = 404
+          result.body = JSON.stringify(response.data)
         }
-      } else { // no errors
-        result.statusCode = 200
-        result.body = JSON.stringify(response.data)
       }
       return result
     })

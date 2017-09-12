@@ -21,17 +21,18 @@ componentWillUpdate() {
     console.log('Package.render() State: ', this.state)
 
     var keywords = '';
-    if (this.state.fullresult) {
+    if (this.state.fullresult && this.state.fullresult.npms) {
+      console.log('state.fullresult ', this.state.fullresult)
       keywords = this.state.fullresult.npms.collected.metadata.keywords.map((keyword) =>
         <Label horizontal key={keyword}>{keyword}</Label>
       );
     }
 
     var dependencies;
-    if (this.state.fullresult) {
+    if (this.state.fullresult && this.state.fullresult.npms) {
       dependencies = this.state.fullresult.npms.collected.metadata.dependencies.map((depdendency) =>
         <Table.Row key={depdendency.name}>
-          <Table.Cell collapsing><a target="_blank" href={ '/#/package/npm/' + depdendency.name}> {depdendency.name} </a> </Table.Cell>
+          <Table.Cell collapsing><a target="_blank" href={'/#/package/npm/' + depdendency.name}> {depdendency.name} </a> </Table.Cell>
           <Table.Cell>{depdendency.version}</Table.Cell>
         </Table.Row>
       );
@@ -52,13 +53,13 @@ componentWillUpdate() {
 
         <Segment.Group style={{ 'display': this.state.name && !this.state.loading ? 'block' : 'none' }} >
           <Segment.Group horizontal >
-            <Segment>Description: {this.state.fullresult ? this.state.fullresult.npms.collected.metadata.description : ''}</Segment>
-            <Segment>Latest version: {this.state.fullresult ? this.state.fullresult.npms.collected.metadata.version : ''}</Segment>
+            <Segment>Description: {this.state.fullresult && this.state.fullresult.npms ? this.state.fullresult.npms.collected.metadata.description : ''}</Segment>
+            <Segment>Latest version: {this.state.fullresult && this.state.fullresult.npms ? this.state.fullresult.npms.collected.metadata.version : ''}</Segment>
             <Segment style={{ 'padding': '10px' }}>
-              <a href={this.state.fullresult ? this.state.fullresult.npms.collected.metadata.links.repository : ''}>
+              <a href={this.state.fullresult && this.state.fullresult.npms ? this.state.fullresult.npms.collected.metadata.links.repository : ''}>
                 <Icon name='github' size='big' />
               </a>
-              <a href={this.state.fullresult ? this.state.fullresult.npms.collected.metadata.links.homepage : ''}>
+              <a href={this.state.fullresult && this.state.fullresult.npms ? this.state.fullresult.npms.collected.metadata.links.homepage : ''}>
                 <Icon name='home' size='big' />
               </a>
             </Segment>
@@ -68,7 +69,7 @@ componentWillUpdate() {
             <Table celled striped>
               <Table.Body>
                 <Table.Row>
-                  <Table.Cell colSpan='2'>Dependencies: {this.state.fullresult ? this.state.fullresult.npms.collected.metadata.dependencies.length : ''}</Table.Cell>
+                  <Table.Cell colSpan='2'>Dependencies: {this.state.fullresult && this.state.fullresult.npms ? this.state.fullresult.npms.collected.metadata.dependencies.length : ''}</Table.Cell>
                 </Table.Row>
                 {dependencies}
               </Table.Body>
@@ -132,15 +133,19 @@ componentWillUpdate() {
         loading: true
       });
       const variables = { 'name': this.state.name, 'ecosystem': this.state.ecosystem }
-      GqlQuery(variables, true).then(respObject => {
-        console.log("GqlQuery called. respObject: ", respObject)
-        if (respObject) {
+      GqlQuery(variables, true).then(result => {
+        console.log("Result from GqlQuery: ", result)
+
+        if (result.status === 200) {
           that.setState({
-            fullresult: respObject,
+            fullresult: result,
             loading: false
           });
+        } else if (result.status === 404) {
+          console.log('404 trying again in 3 seconds')
+          setTimeout(that.getDataFromServer(), 5000);
         } else {
-          console.log("err. respObject null.")
+          console.log("Err. Unkown status ", result.status, ' Body:', result.body)
           that.setState({ description: 'dummy desc' });
         }
       }).catch(err => {
