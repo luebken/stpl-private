@@ -53,50 +53,50 @@ componentWillUpdate() {
 
         <Segment.Group style={{ 'display': this.state.name && !this.state.loading ? 'block' : 'none' }} >
           <Segment.Group horizontal >
-            <Segment>Description: {this.state.fullresult && this.state.fullresult.npms ? this.state.fullresult.npms.collected.metadata.description : ''}</Segment>
-            <Segment>Latest version: {this.state.fullresult && this.state.fullresult.npms ? this.state.fullresult.npms.collected.metadata.version : ''}</Segment>
-            <Segment style={{ 'padding': '10px' }}>
-              <a href={this.state.fullresult && this.state.fullresult.npms ? this.state.fullresult.npms.collected.metadata.links.repository : ''}>
-                <Icon name='github' size='big' />
-              </a>
-              <a href={this.state.fullresult && this.state.fullresult.npms ? this.state.fullresult.npms.collected.metadata.links.homepage : ''}>
-                <Icon name='home' size='big' />
-              </a>
-            </Segment>
-          </Segment.Group >
-          <Segment>Keywords: {keywords}</Segment>
-          <Segment>
-            <Table celled striped>
-              <Table.Body>
-                <Table.Row>
-                  <Table.Cell colSpan='2'>Dependencies: {this.state.fullresult && this.state.fullresult.npms ? this.state.fullresult.npms.collected.metadata.dependencies.length : ''}</Table.Cell>
-                </Table.Row>
-                {dependencies}
-              </Table.Body>
-
-            </Table>
+            <Segment><span style={{'color':'#b0b0b0'}}>Description:</span> {this.state.fullresult && this.state.fullresult.npms ? this.state.fullresult.npms.collected.metadata.description : ''}</Segment>
+          <Segment><span style={{'color':'#b0b0b0'}}>Latest version: </span>{this.state.fullresult && this.state.fullresult.npms ? this.state.fullresult.npms.collected.metadata.version : ''}</Segment>
+          <Segment style={{ 'padding': '10px' }}>
+            <a href={this.state.fullresult && this.state.fullresult.npms ? this.state.fullresult.npms.collected.metadata.links.repository : ''}>
+              <Icon name='github' size='big' />
+            </a>
+            <a href={this.state.fullresult && this.state.fullresult.npms ? this.state.fullresult.npms.collected.metadata.links.homepage : ''}>
+              <Icon name='home' size='big' />
+            </a>
           </Segment>
+        </Segment.Group >
+        <Segment><span style={{'color':'#b0b0b0'}}>Keywords:</span> {keywords}</Segment>
+        <Segment>
+          <Table celled striped>
+            <Table.Body>
+              <Table.Row>
+                <Table.Cell colSpan='2'>Dependencies: {this.state.fullresult && this.state.fullresult.npms ? this.state.fullresult.npms.collected.metadata.dependencies.length : ''}</Table.Cell>
+              </Table.Row>
+              {dependencies}
+            </Table.Body>
+
+          </Table>
+        </Segment>
 
 
-          <Segment>
-            <p>More:</p>
-            <ul>
-              <li><a href={'https://npms.io/search?q=' + this.state.name}>https://npms.io/search?q={this.state.name}</a></li>
-              <li><a href={'https://api.npms.io/v2/package/' + this.state.name}>https://api.npms.io/v2/package/{this.state.name}</a></li>
-              <li><a href={'https://snyk.io/vuln/npm:' + this.state.name}>https://snyk.io/vuln/npm:{this.state.name}</a></li>
-              <li><a href={'https://libraries.io/npm/' + this.state.name}>https://libraries.io/npm/{this.state.name}</a></li>
-              <li><a href={'https://www.versioneye.com/nodejs/' + this.state.name}>https://www.versioneye.com/nodejs/{this.state.name}</a></li>
-              {/* TODO DavidDM */}
-            </ul>
-          </Segment>
-          <Segment>
-            <Accordion style={{ 'display': this.state.name ? 'block' : 'none' }}>
-              <Accordion.Title>  <Icon name='dropdown' /> Debug </Accordion.Title>
-              <Accordion.Content>
-                <div><pre>{JSON.stringify(this.state.fullresult, null, 2)}</pre></div>
-              </Accordion.Content>
-            </Accordion>
-          </Segment>
+        <Segment>
+          <p>More:</p>
+          <ul>
+            <li><a href={'https://npms.io/search?q=' + this.state.name}>https://npms.io/search?q={this.state.name}</a></li>
+            <li><a href={'https://api.npms.io/v2/package/' + this.state.name}>https://api.npms.io/v2/package/{this.state.name}</a></li>
+            <li><a href={'https://snyk.io/vuln/npm:' + this.state.name}>https://snyk.io/vuln/npm:{this.state.name}</a></li>
+            <li><a href={'https://libraries.io/npm/' + this.state.name}>https://libraries.io/npm/{this.state.name}</a></li>
+            <li><a href={'https://www.versioneye.com/nodejs/' + this.state.name}>https://www.versioneye.com/nodejs/{this.state.name}</a></li>
+            {/* TODO DavidDM */}
+          </ul>
+        </Segment>
+        <Segment>
+          <Accordion style={{ 'display': this.state.name ? 'block' : 'none' }}>
+            <Accordion.Title>  <Icon name='dropdown' /> Debug </Accordion.Title>
+            <Accordion.Content>
+              <div><pre>{JSON.stringify(this.state.fullresult, null, 2)}</pre></div>
+            </Accordion.Content>
+          </Accordion>
+        </Segment>
         </Segment.Group >
 
 
