@@ -28,7 +28,7 @@ componentWillUpdate() {
       );
     }
 
-    var dependencies = '';
+    var dependencies;
     if (this.state.fullresult) {
       dependencies = this.state.fullresult.npms.collected.metadata.dependencies.map((depdendency) =>
         <Table.Row>
