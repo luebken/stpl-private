@@ -6,7 +6,6 @@ class Package extends Component {
 
   constructor() {
     super()
-    console.log('Package.constructor()')
     this.setStateFromWindowLocationHash()
     this.getDataFromServer()
   }
@@ -31,7 +30,7 @@ componentWillUpdate() {
     var dependencies;
     if (this.state.fullresult) {
       dependencies = this.state.fullresult.npms.collected.metadata.dependencies.map((depdendency) =>
-        <Table.Row>
+        <Table.Row key={depdendency.name}>
           <Table.Cell collapsing><a target="_blank" href={ '/#/package/npm/' + depdendency.name}> {depdendency.name} </a> </Table.Cell>
           <Table.Cell>{depdendency.version}</Table.Cell>
         </Table.Row>
