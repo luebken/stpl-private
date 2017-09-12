@@ -8,6 +8,8 @@ const ConsoleSError = log.ConsoleSError
 module.exports.resolveMain = (context, args) => {
   ConsoleSLog('resolveMain context: ', context)
   ConsoleSLog('resolveMain args: ', args)
+
+  //start with NPMs
   var params = {
     Bucket: 'stpl-data',
     Key: 'npms/npm/' + args.name
@@ -16,15 +18,42 @@ module.exports.resolveMain = (context, args) => {
   return s3.getObject(params).promise().then(npmsData => {
     var npmsDataBody = JSON.parse(npmsData.Body.toString('utf-8'))
     var result = {
-      source: ['npms'],
+      source: 'npms',
       name: npmsDataBody.collected.metadata.name,
       ecosystem: 'npm',
-      repository: npmsDataBody.collected.metadata.links.repository
+      description: npmsDataBody.collected.metadata.description,
+      repository: npmsDataBody.collected.metadata.links.repository,
+      homepage: npmsDataBody.collected.metadata.links.homepage,
+      keywords: npmsDataBody.collected.metadata.keywords
     }
-    ConsoleSLog('resolveMain result:', result)
+    ConsoleSLog('resolveMain npms result:', result)
     return result
   }).catch(err => {
-    ConsoleSError('Err in resolveMain:', err)
+    if (err.code === 'AccessDenied') { // didn't find npms data
+      ConsoleSLog('Didnt find NPMS data. Trying libraries.io')
+      var params = {
+        Bucket: 'stpl-data',
+        Key: 'librariosio/npm/' + args.name
+      }
+      return s3.getObject(params).promise().then(libioData => {
+        var libioDataBody = JSON.parse(libioData.Body.toString('utf-8'))
+        var result = {
+          source: 'librariesio',
+          name: libioDataBody.name,
+          ecosystem: 'npm',
+          description: libioDataBody.description,
+          repository: libioDataBody.repository_url,
+          homepage: libioDataBody.homepage,
+          keywords: libioDataBody.keywords
+        }
+        ConsoleSLog('resolveMain librariesio result:', result)
+        return result
+      }).catch(err => {
+        ConsoleSError('Err in resolveMain:', err)
+      })
+    } else {
+      ConsoleSError('Err in resolveMain:', err)
+    }
   })
 }
 

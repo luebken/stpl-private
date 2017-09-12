@@ -8,9 +8,13 @@ const G = require('graphql')
 const mainType = new G.GraphQLObjectType({
   name: 'main',
   fields: {
+    source: { type: G.GraphQLString },
     name: { type: G.GraphQLString },
     ecosystem: { type: G.GraphQLString },
-    repository: { type: G.GraphQLString }
+    description: { type: G.GraphQLString },
+    repository: { type: G.GraphQLString },
+    homepage: { type: G.GraphQLString },
+    keywords: { type: new G.GraphQLList(G.GraphQLString) }
   }
 })
 module.exports.Main = {

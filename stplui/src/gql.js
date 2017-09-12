@@ -31,8 +31,11 @@ const query = `
 query ($name: String!){
   main(name: $name) {
     name
+    description
     ecosystem
     repository
+    homepage
+    keywords
   }
   librariesio(name: $name) {
     metadata {
