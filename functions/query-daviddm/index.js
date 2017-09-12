@@ -13,7 +13,7 @@ exports.handle = (event, context, mainCallback) => {
   const pkg = msg.package
   const repository = msg.repository
 
-  console.log('would query for: ', ecosystem, pkg, repository)
+  console.log('would query for ecosytem: ' + ecosystem + ', package: ' + pkg, ', repository: ' + repository)
   var repoParts = /.*github\.com\/(.*)\/(.*)/.exec(repository)
   if (repoParts) {
     var org = repoParts[1]
