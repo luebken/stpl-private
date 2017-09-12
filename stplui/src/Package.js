@@ -109,6 +109,7 @@ componentWillUpdate() {
       this.state = {
         ecosystem: regEx[1],
         name: regEx[2],
+        loading: true
       };
     } else {
       this.state = {
