@@ -39,9 +39,11 @@ module.exports.resolveLibrariesio = (context, args) => {
   }
   return s3.getObject(params).promise().then(librariosioData => {
     var librariosioDataBody = JSON.parse(librariosioData.Body.toString('utf-8'))
-
     var result = {
-      source: 'librariosio',
+      metadata: {
+        source: 'librariosio',
+        last_modified: librariosioData.LastModified,
+      },
       name: librariosioDataBody.name,
       platform: librariosioDataBody.platform,
       description: librariosioDataBody.description,
@@ -73,7 +75,10 @@ module.exports.resolveVersioneye = (context, args) => {
     var versioneyeDataBody = JSON.parse(versioneyeData.Body.toString('utf-8'))
 
     var result = {
-      source: 'versioneye',
+      metadata: {
+        source: 'versioneye',
+        last_modified: versioneyeData.LastModified,
+      },
       name: versioneyeDataBody.name,
       language: versioneyeDataBody.language,
       description: versioneyeDataBody.description,
@@ -104,7 +109,10 @@ module.exports.resolveNpms = (context, args) => {
     }
 
     var result = {
-      source: 'npms',
+      metadata: {
+        source: 'npms',
+        last_modified: npmsData.LastModified,
+      },
       collected: {
         metadata: {
           name: npmsDataBody.collected.metadata.name,
@@ -147,7 +155,10 @@ module.exports.resolveSnyk = (context, args) => {
     var snykDataBody = JSON.parse(snykData.Body.toString('utf-8'))
 
     var result = {
-      source: 'snyk',
+      metadata: {
+        source: 'snyk',
+        last_modified: snykData.LastModified,
+      },
       readme: snykDataBody.readme
     }
     ConsoleSLog('resolveSnyk result:', result)
@@ -171,7 +182,10 @@ module.exports.resolveDaviddm = (context, args) => {
     var daviddmBody = JSON.parse(daviddmData.Body.toString('utf-8'))
 
     var result = {
-      source: 'daviddm',
+      metadata: {
+        source: 'daviddm',
+        last_modified: daviddmData.LastModified,
+      },
       status: daviddmBody.status,
       deps: daviddmBody.deps
     }

@@ -35,6 +35,9 @@ query ($name: String!){
     repository
   }
   librariesio(name: $name) {
+    metadata {
+      last_modified
+    }
     name
     platform
     description
@@ -46,12 +49,18 @@ query ($name: String!){
     keywords
   }
   versioneye(name: $name) {
+    metadata {
+      last_modified
+    }
     name
     language
     description
     version
   }
   npms(name: $name) {
+    metadata {
+      last_modified
+    }
     collected {
       metadata {
         name
@@ -79,9 +88,15 @@ query ($name: String!){
     }
   }
   snyk(name: $name) {
+    metadata {
+      last_modified
+    }
     readme
   }
   daviddm(name: $name) {
+    metadata {
+      last_modified
+    }
     status
     deps {
       name

@@ -21,10 +21,19 @@ module.exports.Main = {
   resolve: resolvers.resolveMain
 }
 
+const metadataType = new G.GraphQLObjectType({
+  name: 'stpl_metadata',
+  fields: {
+    source: { type: G.GraphQLString },
+    last_modified: { type: G.GraphQLString }
+  }
+})
+
 // Libraries.io
 const librariesioType = new G.GraphQLObjectType({
   name: 'librariesio',
   fields: {
+    metadata: {type: metadataType},
     name: { type: G.GraphQLString },
     platform: { type: G.GraphQLString },
     description: { type: G.GraphQLString },
@@ -51,6 +60,7 @@ module.exports.Librariesio = {
 const versioneyeType = new G.GraphQLObjectType({
   name: 'versioneye',
   fields: {
+    metadata: {type: metadataType},    
     name: { type: G.GraphQLString },
     language: { type: G.GraphQLString },
     description: { type: G.GraphQLString },
@@ -71,6 +81,7 @@ module.exports.Versioneye = {
 const npmsType = new G.GraphQLObjectType({
   name: 'npms',
   fields: {
+    metadata: {type: metadataType},    
     collected: {
       type:
       new G.GraphQLObjectType({
@@ -145,6 +156,7 @@ module.exports.Npms = {
 const snykType = new G.GraphQLObjectType({
   name: 'snyk',
   fields: {
+    metadata: {type: metadataType},    
     readme: { type: G.GraphQLString }
   }
 })
@@ -161,6 +173,7 @@ module.exports.Snyk = {
 const daviddmType = new G.GraphQLObjectType({
   name: 'daviddm',
   fields: {
+    metadata: {type: metadataType},    
     status: { type: G.GraphQLString },
     deps: {
       type: new G.GraphQLList(new G.GraphQLObjectType({
