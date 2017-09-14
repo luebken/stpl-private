@@ -10,12 +10,26 @@ class Package extends Component {
     this.getDataFromServer()
   }
 
-  /*
-componentWillUpdate() {
-  console.log('Package.componentWillUpdate()')
-  this.setStateFromWindowLocationHash()
-}
-*/
+  NumberedLabel(label, value) {
+    var color = 'red'
+    if (value > 0.70) {
+      color = 'orange'
+    }
+    if (value > 0.80) {
+      color = 'yellow'
+    }
+    if (value > 0.90) {
+      color = 'green'
+    }
+    var scoring =
+      < Label color={color}>
+        {label}<Label.Detail>
+          {value ? (value * 100).toFixed(2) : ''}
+        </Label.Detail>
+      </Label >
+    return scoring
+  }
+
 
   render() {
     console.log('Package.render() State: ', this.state)
@@ -37,7 +51,6 @@ componentWillUpdate() {
         </Table.Row>
       );
     }
-
     return (
       <div>
         <h2 style={{ 'display': 'inline-block', 'marginRight': '10px' }}>Package</h2>
@@ -63,26 +76,9 @@ componentWillUpdate() {
             </Segment>
           </Segment.Group >
           <Segment><span style={{ 'color': '#b0b0b0' }}>Score: </span>
-            < Label color={'grey'}>
-              Popularity:<Label.Detail>
-                {this.state.fullresult && this.state.fullresult.npm && this.state.fullresult.npm.score ? (this.state.fullresult.npm.score.popularity * 100).toFixed(2) : ''}
-              </Label.Detail>
-            </Label >
-            <Label color={'grey'}>
-              Quality:<Label.Detail>
-                {this.state.fullresult && this.state.fullresult.npm && this.state.fullresult.npm.score ? (this.state.fullresult.npm.score.quality * 100).toFixed(2) : ''}
-              </Label.Detail>
-            </Label>
-            <Label color={'grey'}>
-              Maintenance:<Label.Detail>
-                {this.state.fullresult && this.state.fullresult.npm && this.state.fullresult.npm.score ? (this.state.fullresult.npm.score.maintenance * 100).toFixed(2) : ''}
-              </Label.Detail>
-            </Label>
-            <Label color={'grey'}>
-              Final:<Label.Detail>
-                {this.state.fullresult && this.state.fullresult.npm && this.state.fullresult.npm.score ? (this.state.fullresult.npm.score.final * 100).toFixed(2) : ''}
-              </Label.Detail>
-            </Label>
+            {this.NumberedLabel('Popularity:', this.state.fullresult && this.state.fullresult.npm && this.state.fullresult.npm.score ? this.state.fullresult.npm.score.popularity : '')}
+            {this.NumberedLabel('Quality:', this.state.fullresult && this.state.fullresult.npm && this.state.fullresult.npm.score ? this.state.fullresult.npm.score.quality : '')}
+            {this.NumberedLabel('Maintenance:', this.state.fullresult && this.state.fullresult.npm && this.state.fullresult.npm.score ? this.state.fullresult.npm.score.maintenance : '')}
           </Segment>
           <Segment><span style={{ 'color': '#b0b0b0' }}>Keywords:</span> {keywords}</Segment>
           <Segment>
