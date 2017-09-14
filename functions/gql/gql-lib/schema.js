@@ -11,7 +11,8 @@ const rootQuery = new G.GraphQLObjectType({
     versioneye: types.Versioneye,
     npms: types.Npms,
     snyk: types.Snyk,
-    daviddm: types.Daviddm
+    daviddm: types.Daviddm,
+    npm: types.Npm
   }
 })
 

@@ -1,6 +1,8 @@
 'use strict'
 
 const resolvers = require('./resolvers')
+const resolveLibrariesio = require('./resolve-librariesio').resolveLibrariesio
+const resolveNpm = require('./resolve-npm').resolveNpm
 const G = require('graphql')
 
 // Core data
@@ -37,7 +39,7 @@ const metadataType = new G.GraphQLObjectType({
 const librariesioType = new G.GraphQLObjectType({
   name: 'librariesio',
   fields: {
-    metadata: {type: metadataType},
+    metadata: { type: metadataType },
     name: { type: G.GraphQLString },
     platform: { type: G.GraphQLString },
     description: { type: G.GraphQLString },
@@ -57,14 +59,14 @@ module.exports.Librariesio = {
       type: G.GraphQLString
     }
   },
-  resolve: resolvers.resolveLibrariesio
+  resolve: resolveLibrariesio
 }
 
 // VersionEye
 const versioneyeType = new G.GraphQLObjectType({
   name: 'versioneye',
   fields: {
-    metadata: {type: metadataType},    
+    metadata: { type: metadataType },
     name: { type: G.GraphQLString },
     language: { type: G.GraphQLString },
     description: { type: G.GraphQLString },
@@ -85,7 +87,7 @@ module.exports.Versioneye = {
 const npmsType = new G.GraphQLObjectType({
   name: 'npms',
   fields: {
-    metadata: {type: metadataType},    
+    metadata: { type: metadataType },
     collected: {
       type:
       new G.GraphQLObjectType({
@@ -160,7 +162,7 @@ module.exports.Npms = {
 const snykType = new G.GraphQLObjectType({
   name: 'snyk',
   fields: {
-    metadata: {type: metadataType},    
+    metadata: { type: metadataType },
     readme: { type: G.GraphQLString }
   }
 })
@@ -177,7 +179,7 @@ module.exports.Snyk = {
 const daviddmType = new G.GraphQLObjectType({
   name: 'daviddm',
   fields: {
-    metadata: {type: metadataType},    
+    metadata: { type: metadataType },
     status: { type: G.GraphQLString },
     deps: {
       type: new G.GraphQLList(new G.GraphQLObjectType({
@@ -202,4 +204,35 @@ module.exports.Daviddm = {
     }
   },
   resolve: resolvers.resolveDaviddm
+}
+
+
+// NPM
+const npmType = new G.GraphQLObjectType({
+  name: 'npm',
+  fields: {
+    metadata: { type: metadataType },
+    name: { type: G.GraphQLString },
+    score: {
+      type: new G.GraphQLObjectType({
+        name: 'score',
+        fields: () => ({
+          final: { type: G.GraphQLFloat },
+          quality: { type: G.GraphQLFloat },
+          popularity: { type: G.GraphQLFloat },
+          maintenance: { type: G.GraphQLFloat }
+        })
+      })
+    }
+  }
+})
+
+module.exports.Npm = {
+  type: npmType,
+  args: {
+    name: {
+      type: G.GraphQLString
+    }
+  },
+  resolve: resolveNpm
 }

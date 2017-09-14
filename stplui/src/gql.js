@@ -109,5 +109,17 @@ query ($name: String!){
       status
     }
   }
+  npm(name: $name) {
+    metadata {
+      last_modified
+    }
+    name
+    score {
+      final
+      quality
+      popularity
+      maintenance
+    }
+  }
 }`
 

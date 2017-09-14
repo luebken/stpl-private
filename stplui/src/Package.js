@@ -62,6 +62,28 @@ componentWillUpdate() {
               </a>
             </Segment>
           </Segment.Group >
+          <Segment><span style={{ 'color': '#b0b0b0' }}>Score: </span>
+            < Label color={'grey'}>
+              Popularity:<Label.Detail>
+                {this.state.fullresult && this.state.fullresult.npm && this.state.fullresult.npm.score ? (this.state.fullresult.npm.score.popularity * 100).toFixed(2) : ''}
+              </Label.Detail>
+            </Label >
+            <Label color={'grey'}>
+              Quality:<Label.Detail>
+                {this.state.fullresult && this.state.fullresult.npm && this.state.fullresult.npm.score ? (this.state.fullresult.npm.score.quality * 100).toFixed(2) : ''}
+              </Label.Detail>
+            </Label>
+            <Label color={'grey'}>
+              Maintenance:<Label.Detail>
+                {this.state.fullresult && this.state.fullresult.npm && this.state.fullresult.npm.score ? (this.state.fullresult.npm.score.maintenance * 100).toFixed(2) : ''}
+              </Label.Detail>
+            </Label>
+            <Label color={'grey'}>
+              Final:<Label.Detail>
+                {this.state.fullresult && this.state.fullresult.npm && this.state.fullresult.npm.score ? (this.state.fullresult.npm.score.final * 100).toFixed(2) : ''}
+              </Label.Detail>
+            </Label>
+          </Segment>
           <Segment><span style={{ 'color': '#b0b0b0' }}>Keywords:</span> {keywords}</Segment>
           <Segment>
             <Table celled striped>
