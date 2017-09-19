@@ -36,6 +36,7 @@ query ($name: String!){
     repository
     homepage
     keywords
+    license
   }
   librariesio(name: $name) {
     metadata {

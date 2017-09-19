@@ -80,6 +80,19 @@ class Package extends Component {
             {this.NumberedLabel('Quality:', this.state.fullresult && this.state.fullresult.npm && this.state.fullresult.npm.score ? this.state.fullresult.npm.score.quality : '')}
             {this.NumberedLabel('Maintenance:', this.state.fullresult && this.state.fullresult.npm && this.state.fullresult.npm.score ? this.state.fullresult.npm.score.maintenance : '')}
           </Segment>
+          <Segment.Group horizontal >
+            {/*
+          <Segment>
+              <span style={{ 'color': '#b0b0b0' }}>Vulnerabilities:</span>
+          </Segment>
+          */}
+            <Segment>
+              <span style={{ 'color': '#b0b0b0' }}>License: </span>
+              {this.state.fullresult ? this.state.fullresult.main.license : ''}
+              <a href={this.state.fullresult ? 'https://spdx.org/licenses/' + this.state.fullresult.main.license + '.html' : ''}> spdx.org</a>
+            </Segment>
+          </Segment.Group >
+
           <Segment><span style={{ 'color': '#b0b0b0' }}>Keywords:</span> {keywords}</Segment>
           <Segment>
             <Table celled striped>

@@ -16,6 +16,7 @@ const mainType = new G.GraphQLObjectType({
     description: { type: G.GraphQLString },
     repository: { type: G.GraphQLString },
     homepage: { type: G.GraphQLString },
+    license: { type: G.GraphQLString },
     keywords: { type: new G.GraphQLList(G.GraphQLString) }
   }
 })

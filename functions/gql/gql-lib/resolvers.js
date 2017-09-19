@@ -24,7 +24,8 @@ module.exports.resolveMain = (context, args) => {
       description: npmsDataBody.collected.metadata.description,
       repository: npmsDataBody.collected.metadata.links.repository,
       homepage: npmsDataBody.collected.metadata.links.homepage,
-      keywords: npmsDataBody.collected.metadata.keywords
+      keywords: npmsDataBody.collected.metadata.keywords,
+      license: npmsDataBody.collected.metadata.license
     }
     ConsoleSLog('resolveMain npms result:', result)
     return result
