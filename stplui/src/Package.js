@@ -81,11 +81,13 @@ class Package extends Component {
             {this.NumberedLabel('Maintenance:', this.state.fullresult && this.state.fullresult.npm && this.state.fullresult.npm.score ? this.state.fullresult.npm.score.maintenance : '')}
           </Segment>
           <Segment.Group horizontal >
-            {/*
-          <Segment>
-              <span style={{ 'color': '#b0b0b0' }}>Vulnerabilities:</span>
-          </Segment>
-          */}
+            <Segment>
+              <span style={{ 'color': '#b0b0b0' }}>Status: </span>
+              <span style={{ 'color': this.state.fullresult && this.state.fullresult.daviddm.status == 'insecure' ? '#db2828' : '#b0b0b0' }}>
+                {this.state.fullresult && this.state.fullresult.daviddm ? this.state.fullresult.daviddm.status : ''}
+              </span>
+              <a href={this.state.fullresult ? 'https://david-dm.org/' + this.state.fullresult.main.repository + '/' + this.state.fullresult.main.name : ''}> david-dm.org</a>
+            </Segment>
             <Segment>
               <span style={{ 'color': '#b0b0b0' }}>License: </span>
               {this.state.fullresult ? this.state.fullresult.main.license : ''}
