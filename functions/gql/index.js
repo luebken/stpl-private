@@ -38,6 +38,7 @@ module.exports.handle = (event, context, cb) => {
         result.body = JSON.stringify(response.errors)
       } else { // no errors
         // if at least one data is present return
+        //TODO try fill .main from different providers and check of that is present 
         if (response.data.librariesio != null | response.data.versioneye != null | response.data.npms != null) {
           result.statusCode = 200
           response.data.status = 200
