@@ -1,9 +1,0 @@
-* only update after a certain threshhold e.g. > day
-* don't open in new window
-* background jobs that updates everything that is > week or so.
-* recursive dependency analysis
-
-        //TODO try fill .main from different providers and check of that is present 
-
-Done:
-* show timestamp of each data source

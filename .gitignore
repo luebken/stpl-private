@@ -1,3 +1,2 @@
-env.json
+.envrc
 node_modules
-snyk

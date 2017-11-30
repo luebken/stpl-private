@@ -1,23 +1,25 @@
-prepare:
+.DEFAULT_GOAL := help
+
+ui-install: ## Install the reactapps dependencies.
 	cd stplui; npm install
 
-localdev:
+ui-localstart: ## Starts the reactapp.
 	cd stplui; npm start
 
-build:
+ui-build: ## Builds the reactapp.
 	cd stplui; npm run build
 
-deploy:
-	apex deploy --env-file env.json
-	aws s3 sync --exclude *.map  stplui/build/ s3://i.stpl.io --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
-
-localserve:
+localserve: ## Serves the ui build locally.
 	open http://localhost:8000
 	cd stplui/build; python -m SimpleHTTPServer
 
-changepassword:
-	USERNAME=goern
-	aws cognito-idp admin-initiate-auth --user-pool-id us-east-1_n9E1pHkMX --client-id 5mci9av5crotk4uqut7ol6tqr8 --auth-flow ADMIN_NO_SRP_AUTH --auth-parameters USERNAME=$USERNAME,PASSWORD=stplio
-	SESSION=
-	aws cognito-idp admin-respond-to-auth-challenge --user-pool-id us-east-1_n9E1pHkMX --client-id 5mci9av5crotk4uqut7ol6tqr8 --challenge-name NEW_PASSWORD_REQUIRED --challenge-responses NEW_PASSWORD=stplio,USERNAME=$USERNAME,userAttributes.name=$USERNAME --session $SESSION
+build: ## Builds the functions.
+	cd functions/gql; npm install
 
+deploy: ## Deploys the UI and the functions.
+	@apex deploy --set LIBRARIES_IO_API_KEY=$(LIBRARIES_IO_API_KEY) --set VERSIONEYE_API_KEY=$(VERSIONEYE_API_KEY)
+	aws s3 sync --exclude *.map  stplui/build/ s3://i.stpl.io --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
+
+help: ##Shows help message
+	@echo "Available make commands:"
+	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
